@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NotesAndCoins | Trading Education</title>
+<title>NotesAndCoins | Forex Mentorship & Trading Education</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
   /* ─── DESIGN TOKENS ─────────────────────────────── */
@@ -555,65 +555,6 @@
     font-size: .82rem; flex-wrap: wrap; gap: 12px;
   }
 
-  /* ─── TRADING SESSIONS CLOCK ───────────────────── */
-  #sessions-clock {
-    position: fixed;
-    top: 14px;
-    right: 80px;
-    z-index: 950;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 8px 12px;
-    min-width: 155px;
-    font-size: 12px;
-    box-shadow: var(--shadow);
-  }
-  .clock-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-    gap: 10px;
-  }
-  .clock-label {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-muted);
-  }
-  .clock-time {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text);
-    font-variant-numeric: tabular-nums;
-  }
-  .session-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 4px;
-  }
-  .session-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .session-name {
-    flex: 1;
-    color: var(--text);
-    font-size: 11px;
-  }
-  .session-status {
-    font-size: 10px;
-    font-weight: 700;
-  }
-  @media (max-width: 600px) {
-    #sessions-clock { right: 12px; top: 80px; }
-  }
-
   /* ─── ANIMATIONS ────────────────────────────────── */
   @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
@@ -804,20 +745,20 @@
         <form id="leadForm" action="https://formspree.io/f/xyknpleo" method="POST" onsubmit="submitForm(event)">
           <div class="form-grid">
             <div class="form-group">
-              <label>Full Name *</label>
-              <input type="text" name="Full Name" placeholder="Your full name" required />
+              <label for="full_name">Full Name *</label>
+              <input id="full_name" type="text" name="full_name" placeholder="Your full name" required />
             </div>
             <div class="form-group">
-              <label>Email Address *</label>
-              <input type="email" name="email" placeholder="you@example.com" required />
+              <label for="email">Email Address *</label>
+              <input id="email" type="email" name="email" placeholder="you@example.com" required />
             </div>
             <div class="form-group">
-              <label>Phone / WhatsApp *</label>
-              <input type="tel" name="Phone / WhatsApp" placeholder="+254 7xx xxx xxx" required />
+              <label for="phone_whatsapp">Phone / WhatsApp *</label>
+              <input id="phone_whatsapp" type="tel" name="phone_whatsapp" placeholder="+254 7xx xxx xxx" required />
             </div>
             <div class="form-group">
-              <label>Trading Experience *</label>
-              <select name="Trading Experience" required>
+              <label for="trading_experience">Trading Experience *</label>
+              <select id="trading_experience" name="trading_experience" required>
                 <option value="" disabled selected>Select your level</option>
                 <option>Beginner — Just starting out</option>
                 <option>Intermediate — Some experience</option>
@@ -825,8 +766,8 @@
               </select>
             </div>
             <div class="form-group full">
-              <label>I'm interested in *</label>
-              <select name="Interested In" required>
+              <label for="interest">I'm interested in *</label>
+              <select id="interest" name="interest" required>
                 <option value="" disabled selected>What are you looking for?</option>
                 <option>1-on-1 Mentorship</option>
                 <option>Forex Course (Self-paced)</option>
@@ -835,8 +776,8 @@
               </select>
             </div>
             <div class="form-group full">
-              <label>Tell me your goal (optional)</label>
-              <textarea name="Goal" placeholder="e.g. I want to pass a prop firm challenge, become a full-time trader, etc."></textarea>
+              <label for="goal">Tell me your goal (optional)</label>
+              <textarea id="goal" name="goal" placeholder="e.g. I want to pass a prop firm challenge, become a full-time trader, etc."></textarea>
             </div>
           </div>
           <div class="form-submit">
@@ -1092,7 +1033,7 @@
           <div class="contact-info">
             <strong>Email</strong>
             <p>For detailed enquiries, partnership requests, or if you prefer email communication.</p>
-            <a href="/cdn-cgi/l/email-protection#6a020f0606054404051e0f1909050304192a0d070b030644090507" class="btn-sm">Send Email →</a>
+            <a href="/cdn-cgi/l/email-protection#b2dad7dededd9cdcddc6d7c1d1dddbdcc1f2d5dfd3dbde9cd1dddf" class="btn-sm">Send Email →</a>
           </div>
         </div>
         <div class="contact-card">
@@ -1145,36 +1086,18 @@
         <h4>Connect</h4>
         <ul>
           <li><a href="https://wa.me/254717978836" target="_blank">💬 WhatsApp</a></li>
-          <li><a href="/cdn-cgi/l/email-protection#86eee3eaeae9a8e8e9f2e3f5e5e9efe8f5c6e1ebe7efeaa8e5e9eb">✉ Email</a></li>
+          <li><a href="/cdn-cgi/l/email-protection#325a575e5e5d1c5c5d465741515d5b5c4172555f535b5e1c515d5f">✉ Email</a></li>
           <li><a href="https://www.youtube.com/@CoinsMinister" target="_blank">▶ YouTube</a></li>
           <li><a href="https://www.substack.com/notesandcoins" target="_blank">📝 Substack</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2025 NotesAndCoins. All rights reserved.</span>
+      <span>© 2026 NotesAndCoins. All rights reserved.</span>
       <span>Built for traders, by a trader 📈</span>
     </div>
   </div>
 </footer>
-
-<!-- TRADING SESSIONS CLOCK -->
-<div id="sessions-clock">
-  <div class="clock-row">
-    <span class="clock-label">Sessions</span>
-    <span id="ny-time" class="clock-time"></span>
-  </div>
-  <div class="session-row">
-    <span id="ny-dot" class="session-dot"></span>
-    <span class="session-name">New York</span>
-    <span id="ny-status" class="session-status"></span>
-  </div>
-  <div class="session-row">
-    <span id="lon-dot" class="session-dot"></span>
-    <span class="session-name">London</span>
-    <span id="lon-status" class="session-status"></span>
-  </div>
-</div>
 
 <!-- FLOATING CTA -->
 <div class="float-cta">
@@ -1228,7 +1151,7 @@
     document.getElementById('mobileMenu').classList.remove('open');
   }
 
-  // ── FORM SUBMIT ──
+  // -- FORM SUBMIT --
   async function submitForm(e) {
     e.preventDefault();
     const form = e.target;
@@ -1236,7 +1159,7 @@
     const toast = document.getElementById('toast');
 
     btn.disabled = true;
-    btn.textContent = '⏳ Sending...';
+    btn.textContent = 'Sending...';
 
     try {
       const response = await fetch(form.action, {
@@ -1246,25 +1169,25 @@
       });
 
       if (response.ok) {
-        toast.textContent = "✅ Submitted! I'll be in touch soon.";
+        toast.textContent = "Form submitted! I'll be in touch soon.";
         toast.style.background = '#16a34a';
         form.reset();
       } else {
-        toast.textContent = '❌ Something went wrong. Please try WhatsApp instead.';
+        toast.textContent = 'Something went wrong. Please try again.';
         toast.style.background = '#dc2626';
       }
     } catch (err) {
-      toast.textContent = '❌ Network error. Please try WhatsApp instead.';
+      toast.textContent = 'Network error. Please check your connection.';
       toast.style.background = '#dc2626';
     }
 
     toast.classList.add('show');
     btn.disabled = false;
-    btn.innerHTML = '🚀 Submit &amp; Get Started';
+    btn.innerHTML = 'Submit &amp; Get Started';
     setTimeout(() => toast.classList.remove('show'), 4000);
   }
 
-  // ── REVEAL ON SCROLL ──
+  // -- REVEAL ON SCROLL --
   function setupReveal() {
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -1279,36 +1202,17 @@
     });
   }
 
-  // ── TRADING SESSIONS CLOCK ──
-  function updateSessionsClock() {
-    const now = new Date();
-    function getZoneTime(offset) {
-      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-      return new Date(utc + 3600000 * offset);
-    }
-    function fmt(t) {
-      let h = t.getHours(), m = t.getMinutes(), s = t.getSeconds();
-      const ampm = h >= 12 ? 'PM' : 'AM';
-      h = h % 12 || 12;
-      return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ${ampm}`;
-    }
-    function setSession(dotId, statusId, zoneTime, openH, openM, closeH, closeM) {
-      const mins = zoneTime.getHours() * 60 + zoneTime.getMinutes();
-      const isOpen = mins >= openH * 60 + openM && mins < closeH * 60 + closeM;
-      document.getElementById(dotId).style.background = isOpen ? '#16a34a' : '#dc2626';
-      const el = document.getElementById(statusId);
-      el.textContent = isOpen ? 'Open' : 'Closed';
-      el.style.color = isOpen ? '#16a34a' : '#dc2626';
-    }
-    const nyTime = getZoneTime(-5);
-    const lonTime = getZoneTime(0);
-    document.getElementById('ny-time').textContent = fmt(nyTime) + ' NY';
-    setSession('ny-dot', 'ny-status', nyTime, 8, 0, 17, 0);
-    setSession('lon-dot', 'lon-status', lonTime, 8, 0, 16, 30);
-  }
-  updateSessionsClock();
-  setInterval(updateSessionsClock, 1000);
-
   // Close float menu when clicking elsewhere
   document.addEventListener('click', (e) => {
-    const fc = document.
+    const fc = document.getElementById('floatOptions');
+    const ft = document.querySelector('.float-toggle');
+    if (fc && ft && !fc.contains(e.target) && !ft.contains(e.target)) {
+      fc.classList.add('hidden');
+    }
+  });
+
+  // Init on load
+  setupReveal();
+</script>
+</body>
+</html>
