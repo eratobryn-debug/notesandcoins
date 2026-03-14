@@ -607,6 +607,61 @@
     .float-cta { bottom: 16px; right: 16px; }
     .fcta-btn { font-size: .78rem; padding: 10px 16px; }
   }
+  #sessions-clock {
+  position: fixed;
+  top: 14px;
+  right: 80px;
+  z-index: 950;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px 12px;
+  min-width: 160px;
+  font-size: 12px;
+  box-shadow: var(--shadow);
+}
+.clock-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  gap: 10px;
+}
+.clock-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+.clock-time {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.session-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+.session-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #888;
+  flex-shrink: 0;
+}
+.session-name {
+  flex: 1;
+  color: var(--text);
+  font-size: 11px;
+}
+.session-status {
+  font-size: 10px;
+  font-weight: 700;
+}
 </style>
 </head>
 <body>
@@ -614,7 +669,7 @@
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a class="logo" href="#" onclick="showPage('home')">Notes<span>&amp;Coins</span></a>
+    <a class="logo" href="#" onclick="showPage('home')">Notes<span>Coins</span></a>
     <div class="nav-links">
       <a href="#" onclick="showPage('home')">Home</a>
       <a href="#" onclick="showPage('courses')">Courses</a>
@@ -630,6 +685,23 @@
       </button>
     </div>
   </div>
+  <!-- TRADING SESSIONS CLOCK -->
+<div id="sessions-clock">
+  <div class="clock-row">
+    <span class="clock-label">Sessions</span>
+    <span id="ny-time" class="clock-time"></span>
+  </div>
+  <div class="session-row">
+    <span id="ny-dot" class="session-dot"></span>
+    <span class="session-name">New York</span>
+    <span id="ny-status" class="session-status"></span>
+  </div>
+  <div class="session-row">
+    <span id="lon-dot" class="session-dot"></span>
+    <span class="session-name">London</span>
+    <span id="lon-status" class="session-status"></span>
+  </div>
+</div>
 </nav>
 
 <!-- MOBILE MENU -->
@@ -1212,6 +1284,35 @@
 
   // Init
   setupReveal();
+  // ── TRADING SESSIONS CLOCK ──
+function updateSessionsClock() {
+  const now = new Date();
+  function getZoneTime(offset) {
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    return new Date(utc + 3600000 * offset);
+  }
+  function fmt(t) {
+    let h = t.getHours(), m = t.getMinutes(), s = t.getSeconds();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ${ampm}`;
+  }
+  function setSession(dotId, statusId, zoneTime, openH, openM, closeH, closeM) {
+    const mins = zoneTime.getHours() * 60 + zoneTime.getMinutes();
+    const isOpen = mins >= openH * 60 + openM && mins < closeH * 60 + closeM;
+    document.getElementById(dotId).style.background = isOpen ? '#16a34a' : '#dc2626';
+    const el = document.getElementById(statusId);
+    el.textContent = isOpen ? 'Open' : 'Closed';
+    el.style.color = isOpen ? '#16a34a' : '#dc2626';
+  }
+  const nyTime = getZoneTime(-5);
+  const lonTime = getZoneTime(0);
+  document.getElementById('ny-time').textContent = fmt(nyTime) + ' NY';
+  setSession('ny-dot', 'ny-status', nyTime, 8, 0, 17, 0);
+  setSession('lon-dot', 'lon-status', lonTime, 8, 0, 16, 30);
+}
+updateSessionsClock();
+setInterval(updateSessionsClock, 1000);
 </script>
 </body>
 </html>
