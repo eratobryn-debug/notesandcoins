@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NotesCoins | Forex Mentorship & Trading Education</title>
+<title>NotesAndCoins | Forex Mentorship & Trading Education</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
   /* ─── DESIGN TOKENS ─────────────────────────────── */
@@ -555,6 +555,65 @@
     font-size: .82rem; flex-wrap: wrap; gap: 12px;
   }
 
+  /* ─── TRADING SESSIONS CLOCK ───────────────────── */
+  #sessions-clock {
+    position: fixed;
+    top: 14px;
+    right: 80px;
+    z-index: 950;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px 12px;
+    min-width: 155px;
+    font-size: 12px;
+    box-shadow: var(--shadow);
+  }
+  .clock-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    gap: 10px;
+  }
+  .clock-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+  }
+  .clock-time {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .session-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .session-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .session-name {
+    flex: 1;
+    color: var(--text);
+    font-size: 11px;
+  }
+  .session-status {
+    font-size: 10px;
+    font-weight: 700;
+  }
+  @media (max-width: 600px) {
+    #sessions-clock { right: 12px; top: 80px; }
+  }
+
   /* ─── ANIMATIONS ────────────────────────────────── */
   @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
@@ -607,61 +666,6 @@
     .float-cta { bottom: 16px; right: 16px; }
     .fcta-btn { font-size: .78rem; padding: 10px 16px; }
   }
-  #sessions-clock {
-  position: fixed;
-  top: 14px;
-  right: 80px;
-  z-index: 950;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 8px 12px;
-  min-width: 160px;
-  font-size: 12px;
-  box-shadow: var(--shadow);
-}
-.clock-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
-  gap: 10px;
-}
-.clock-label {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-muted);
-}
-.clock-time {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text);
-  font-variant-numeric: tabular-nums;
-}
-.session-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-}
-.session-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #888;
-  flex-shrink: 0;
-}
-.session-name {
-  flex: 1;
-  color: var(--text);
-  font-size: 11px;
-}
-.session-status {
-  font-size: 10px;
-  font-weight: 700;
-}
 </style>
 </head>
 <body>
@@ -669,7 +673,7 @@
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a class="logo" href="#" onclick="showPage('home')">Notes<span>Coins</span></a>
+    <a class="logo" href="#" onclick="showPage('home')">Notes<span>&amp;Coins</span></a>
     <div class="nav-links">
       <a href="#" onclick="showPage('home')">Home</a>
       <a href="#" onclick="showPage('courses')">Courses</a>
@@ -685,23 +689,6 @@
       </button>
     </div>
   </div>
-  <!-- TRADING SESSIONS CLOCK -->
-<div id="sessions-clock">
-  <div class="clock-row">
-    <span class="clock-label">Sessions</span>
-    <span id="ny-time" class="clock-time"></span>
-  </div>
-  <div class="session-row">
-    <span id="ny-dot" class="session-dot"></span>
-    <span class="session-name">New York</span>
-    <span id="ny-status" class="session-status"></span>
-  </div>
-  <div class="session-row">
-    <span id="lon-dot" class="session-dot"></span>
-    <span class="session-name">London</span>
-    <span id="lon-status" class="session-status"></span>
-  </div>
-</div>
 </nav>
 
 <!-- MOBILE MENU -->
@@ -740,7 +727,7 @@
           <div class="card-head">
             <div class="avatar">NC</div>
             <div class="card-head-text">
-              <strong>NotesCoins Trader</strong>
+              <strong>NotesAndCoins Trader</strong>
               <span>🟢 Live &amp; Educating</span>
             </div>
           </div>
@@ -814,23 +801,23 @@
       <div class="form-wrap reveal">
         <h2>Join My Trading Program</h2>
         <p>No spam. Just education, market insights, and guidance tailored to you.</p>
-       <form id="leadForm" action="https://formspree.io/f/xyknpleo" method="POST" onsubmit="submitForm(event)">
+        <form id="leadForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" onsubmit="submitForm(event)">
           <div class="form-grid">
             <div class="form-group">
               <label>Full Name *</label>
-              <input type="text" placeholder="Your full name" required name="Full Name" />
+              <input type="text" name="Full Name" placeholder="Your full name" required />
             </div>
             <div class="form-group">
               <label>Email Address *</label>
-              <input type="email" placeholder="you@example.com" required name="email" />
+              <input type="email" name="email" placeholder="you@example.com" required />
             </div>
             <div class="form-group">
               <label>Phone / WhatsApp *</label>
-              <input type="tel" placeholder="+254 7xx xxx xxx" required name="Phone" />
+              <input type="tel" name="Phone / WhatsApp" placeholder="+254 7xx xxx xxx" required />
             </div>
             <div class="form-group">
               <label>Trading Experience *</label>
-              <select required name="Trading Experience">
+              <select name="Trading Experience" required>
                 <option value="" disabled selected>Select your level</option>
                 <option>Beginner — Just starting out</option>
                 <option>Intermediate — Some experience</option>
@@ -839,7 +826,7 @@
             </div>
             <div class="form-group full">
               <label>I'm interested in *</label>
-              <select required name="Interested In" >
+              <select name="Interested In" required>
                 <option value="" disabled selected>What are you looking for?</option>
                 <option>1-on-1 Mentorship</option>
                 <option>Forex Course (Self-paced)</option>
@@ -980,50 +967,50 @@
           <div class="rc-icon">📘</div>
           <h3>Beginner Forex Guide</h3>
           <p>A comprehensive starter guide covering everything you need to know before placing your first trade. Includes glossary, platform setup, and first-trade checklist.</p>
-          <a href="https://www.substack.com/NotesCoins" target="_blank" class="resource-link">Read Guide →</a>
+          <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link">Read Guide →</a>
         </div>
         <div class="resource-card">
           <div class="rc-icon">📉</div>
           <h3>Risk Management Cheatsheet</h3>
           <p>The one-page cheatsheet every trader must have. Lot size calculator guide, max daily loss rules, and risk-per-trade frameworks.</p>
-          <a href="https://www.substack.com/NotesCoins" target="_blank" class="resource-link">Download →</a>
+          <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link">Download →</a>
         </div>
         <div class="resource-card">
           <div class="rc-icon">🏦</div>
           <h3>Prop Firm Challenge Guide</h3>
           <p>How to choose a prop firm, understand their rules, set realistic targets, and avoid the common mistakes that get accounts blown.</p>
-          <a href="https://www.substack.com/NotesCoins" target="_blank" class="resource-link">Read Guide →</a>
+          <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link">Read Guide →</a>
         </div>
         <div class="resource-card">
           <div class="rc-icon">🧠</div>
           <h3>Trading Psychology Workbook</h3>
           <p>Practical exercises to identify your emotional triggers, build a pre-trading routine, and develop the mindset of a disciplined trader.</p>
-          <a href="https://www.substack.com/NotesCoins" target="_blank" class="resource-link">Get Workbook →</a>
+          <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link">Get Workbook →</a>
         </div>
       </div>
 
       <!-- Blog / Substack -->
       <div style="margin-top:60px;">
         <h3 style="font-size:1.5rem;margin-bottom:6px;">From the Blog</h3>
-        <p style="color:var(--text-muted);margin-bottom:24px;">Market breakdowns, trading insights, and mindset content — straight from <a href="https://www.substack.com/NotesCoins" target="_blank" style="color:var(--blue-500);font-weight:600;">NotesCoins on Substack</a>.</p>
+        <p style="color:var(--text-muted);margin-bottom:24px;">Market breakdowns, trading insights, and mindset content — straight from <a href="https://www.substack.com/notesandcoins" target="_blank" style="color:var(--blue-500);font-weight:600;">NotesAndCoins on Substack</a>.</p>
         <div class="blog-grid">
           <div class="blog-card">
             <span class="blog-tag">Price Action</span>
             <h4>Why Most Traders Fail at Reading Price Action</h4>
             <p>The key mistake beginners make is chasing indicators instead of learning the raw story the chart is telling...</p>
-            <a href="https://www.substack.com/NotesCoins" target="_blank" class="resource-link" style="margin-top:12px;">Read on Substack →</a>
+            <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link" style="margin-top:12px;">Read on Substack →</a>
           </div>
           <div class="blog-card">
             <span class="blog-tag">Risk Management</span>
             <h4>The 1% Rule That Saved My Trading Account</h4>
             <p>Risking more than 1–2% per trade is the fastest way to blow an account. Here's how to apply it consistently...</p>
-            <a href="https://www.substack.com/NotesCoins" target="_blank" class="resource-link" style="margin-top:12px;">Read on Substack →</a>
+            <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link" style="margin-top:12px;">Read on Substack →</a>
           </div>
           <div class="blog-card">
             <span class="blog-tag">Prop Firms</span>
             <h4>How I Passed My First Prop Firm Challenge</h4>
             <p>A step-by-step breakdown of my mindset, strategy, and daily routine during the evaluation period...</p>
-            <a href="https://www.substack.com/NotesCoins" target="_blank" class="resource-link" style="margin-top:12px;">Read on Substack →</a>
+            <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link" style="margin-top:12px;">Read on Substack →</a>
           </div>
         </div>
       </div>
@@ -1063,7 +1050,7 @@
           <div class="philosophy-box">
             "The Hail Mary isn't about luck — it's about waiting for the right setup, trusting your analysis, and executing with conviction. Every trade is a calculated bet, not a gamble."
           </div>
-          <p>Today, I combine live trading with mentorship through <strong>NotesCoins</strong> — sharing weekly market analysis on YouTube, publishing insights on Substack, and mentoring students one-on-one through structured programs that deliver real results.</p>
+          <p>Today, I combine live trading with mentorship through <strong>NotesAndCoins</strong> — sharing weekly market analysis on YouTube, publishing insights on Substack, and mentoring students one-on-one through structured programs that deliver real results.</p>
           <div style="margin-top:24px;">
             <strong style="display:block;margin-bottom:12px;font-size:.9rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Markets I Trade</strong>
             <div class="markets-row">
@@ -1105,7 +1092,7 @@
           <div class="contact-info">
             <strong>Email</strong>
             <p>For detailed enquiries, partnership requests, or if you prefer email communication.</p>
-            <a href="mailto:hello.notescoins@gmail.com" class="btn-sm">Send Email →</a>
+            <a href="/cdn-cgi/l/email-protection#6a020f0606054404051e0f1909050304192a0d070b030644090507" class="btn-sm">Send Email →</a>
           </div>
         </div>
         <div class="contact-card">
@@ -1121,7 +1108,7 @@
           <div class="contact-info">
             <strong>Substack Newsletter</strong>
             <p>In-depth trading articles, market insights, and educational notes delivered to your inbox.</p>
-            <a href="https://www.substack.com/NotesCoins" target="_blank" class="btn-sm">Subscribe →</a>
+            <a href="https://www.substack.com/notesandcoins" target="_blank" class="btn-sm">Subscribe →</a>
           </div>
         </div>
       </div>
@@ -1129,7 +1116,7 @@
       <div class="social-row">
         <a href="https://x.com" target="_blank" class="social-btn">𝕏 Follow on X (Twitter)</a>
         <a href="https://www.youtube.com/@CoinsMinister" target="_blank" class="social-btn">▶ YouTube</a>
-        <a href="https://www.substack.com/NotesCoins" target="_blank" class="social-btn">📝 Substack</a>
+        <a href="https://www.substack.com/notesandcoins" target="_blank" class="social-btn">📝 Substack</a>
         <a href="https://wa.me/254717978836" target="_blank" class="social-btn">💬 WhatsApp</a>
       </div>
     </div>
@@ -1158,18 +1145,36 @@
         <h4>Connect</h4>
         <ul>
           <li><a href="https://wa.me/254717978836" target="_blank">💬 WhatsApp</a></li>
-          <li><a href="mailto:hello.notescoins@gmail.com">✉ Email</a></li>
+          <li><a href="/cdn-cgi/l/email-protection#86eee3eaeae9a8e8e9f2e3f5e5e9efe8f5c6e1ebe7efeaa8e5e9eb">✉ Email</a></li>
           <li><a href="https://www.youtube.com/@CoinsMinister" target="_blank">▶ YouTube</a></li>
-          <li><a href="https://www.substack.com/NotesCoins" target="_blank">📝 Substack</a></li>
+          <li><a href="https://www.substack.com/notesandcoins" target="_blank">📝 Substack</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2025 NotesCoins. All rights reserved.</span>
+      <span>© 2025 NotesAndCoins. All rights reserved.</span>
       <span>Built for traders, by a trader 📈</span>
     </div>
   </div>
 </footer>
+
+<!-- TRADING SESSIONS CLOCK -->
+<div id="sessions-clock">
+  <div class="clock-row">
+    <span class="clock-label">Sessions</span>
+    <span id="ny-time" class="clock-time"></span>
+  </div>
+  <div class="session-row">
+    <span id="ny-dot" class="session-dot"></span>
+    <span class="session-name">New York</span>
+    <span id="ny-status" class="session-status"></span>
+  </div>
+  <div class="session-row">
+    <span id="lon-dot" class="session-dot"></span>
+    <span class="session-name">London</span>
+    <span id="lon-status" class="session-status"></span>
+  </div>
+</div>
 
 <!-- FLOATING CTA -->
 <div class="float-cta">
@@ -1185,7 +1190,7 @@
 <!-- TOAST -->
 <div class="toast" id="toast">✅ Form submitted! I'll be in touch soon.</div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ── PAGE ROUTING ──
   function showPage(name) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1224,40 +1229,40 @@
   }
 
   // ── FORM SUBMIT ──
- async function submitForm(e) {
-  e.preventDefault();
-  const form = e.target;
-  const btn = form.querySelector('button[type="submit"]');
-  const toast = document.getElementById('toast');
+  async function submitForm(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button[type="submit"]');
+    const toast = document.getElementById('toast');
 
-  btn.disabled = true;
-  btn.textContent = '⏳ Sending...';
+    btn.disabled = true;
+    btn.textContent = '⏳ Sending...';
 
-  try {
-    const response = await fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    });
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
 
-    if (response.ok) {
-      toast.textContent = "✅ Submitted! I'll be in touch soon.";
-      toast.style.background = '#16a34a';
-      form.reset();
-    } else {
-      toast.textContent = '❌ Something went wrong. Please try WhatsApp instead.';
+      if (response.ok) {
+        toast.textContent = "✅ Submitted! I'll be in touch soon.";
+        toast.style.background = '#16a34a';
+        form.reset();
+      } else {
+        toast.textContent = '❌ Something went wrong. Please try WhatsApp instead.';
+        toast.style.background = '#dc2626';
+      }
+    } catch (err) {
+      toast.textContent = '❌ Network error. Please try WhatsApp instead.';
       toast.style.background = '#dc2626';
     }
-  } catch (err) {
-    toast.textContent = '❌ Network error. Please try WhatsApp instead.';
-    toast.style.background = '#dc2626';
-  }
 
-  toast.classList.add('show');
-  btn.disabled = false;
-  btn.innerHTML = '🚀 Submit &amp; Get Started';
-  setTimeout(() => toast.classList.remove('show'), 4000);
-}
+    toast.classList.add('show');
+    btn.disabled = false;
+    btn.innerHTML = '🚀 Submit &amp; Get Started';
+    setTimeout(() => toast.classList.remove('show'), 4000);
+  }
 
   // ── REVEAL ON SCROLL ──
   function setupReveal() {
@@ -1274,45 +1279,36 @@
     });
   }
 
+  // ── TRADING SESSIONS CLOCK ──
+  function updateSessionsClock() {
+    const now = new Date();
+    function getZoneTime(offset) {
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      return new Date(utc + 3600000 * offset);
+    }
+    function fmt(t) {
+      let h = t.getHours(), m = t.getMinutes(), s = t.getSeconds();
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ${ampm}`;
+    }
+    function setSession(dotId, statusId, zoneTime, openH, openM, closeH, closeM) {
+      const mins = zoneTime.getHours() * 60 + zoneTime.getMinutes();
+      const isOpen = mins >= openH * 60 + openM && mins < closeH * 60 + closeM;
+      document.getElementById(dotId).style.background = isOpen ? '#16a34a' : '#dc2626';
+      const el = document.getElementById(statusId);
+      el.textContent = isOpen ? 'Open' : 'Closed';
+      el.style.color = isOpen ? '#16a34a' : '#dc2626';
+    }
+    const nyTime = getZoneTime(-5);
+    const lonTime = getZoneTime(0);
+    document.getElementById('ny-time').textContent = fmt(nyTime) + ' NY';
+    setSession('ny-dot', 'ny-status', nyTime, 8, 0, 17, 0);
+    setSession('lon-dot', 'lon-status', lonTime, 8, 0, 16, 30);
+  }
+  updateSessionsClock();
+  setInterval(updateSessionsClock, 1000);
+
   // Close float menu when clicking elsewhere
   document.addEventListener('click', (e) => {
-    const fc = document.querySelector('.float-cta');
-    if (fc && !fc.contains(e.target)) {
-      document.getElementById('floatOptions').classList.add('hidden');
-    }
-  });
-
-  // Init
-  setupReveal();
-  // ── TRADING SESSIONS CLOCK ──
-function updateSessionsClock() {
-  const now = new Date();
-  function getZoneTime(offset) {
-    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-    return new Date(utc + 3600000 * offset);
-  }
-  function fmt(t) {
-    let h = t.getHours(), m = t.getMinutes(), s = t.getSeconds();
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    h = h % 12 || 12;
-    return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ${ampm}`;
-  }
-  function setSession(dotId, statusId, zoneTime, openH, openM, closeH, closeM) {
-    const mins = zoneTime.getHours() * 60 + zoneTime.getMinutes();
-    const isOpen = mins >= openH * 60 + openM && mins < closeH * 60 + closeM;
-    document.getElementById(dotId).style.background = isOpen ? '#16a34a' : '#dc2626';
-    const el = document.getElementById(statusId);
-    el.textContent = isOpen ? 'Open' : 'Closed';
-    el.style.color = isOpen ? '#16a34a' : '#dc2626';
-  }
-  const nyTime = getZoneTime(-5);
-  const lonTime = getZoneTime(0);
-  document.getElementById('ny-time').textContent = fmt(nyTime) + ' NY';
-  setSession('ny-dot', 'ny-status', nyTime, 8, 0, 17, 0);
-  setSession('lon-dot', 'lon-status', lonTime, 8, 0, 16, 30);
-}
-updateSessionsClock();
-setInterval(updateSessionsClock, 1000);
-</script>
-</body>
-</html>
+    const fc = document.
