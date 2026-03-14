@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NotesAndCoins | Forex Mentorship & Trading Education</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  /* ─── DESIGN TOKENS ─────────────────────────────── */
+  :root {
+    --blue-900: #0a1628;
+    --blue-800: #0d2046;
+    --blue-700: #1a3a6b;
+    --blue-600: #1e4db7;
+    --blue-500: #2563eb;
+    --blue-400: #3b82f6;
+    --blue-300: #93c5fd;
+    --blue-100: #dbeafe;
+    --gold:     #f0b429;
+    --gold-lt:  #fde68a;
+    --white:    #ffffff;
+    --bg:       #f8faff;
+    --surface:  #ffffff;
+    --text:     #0a1628;
+    --text-muted: #4b5e82;
+    --border:   #e2eaf8;
+    --nav-h:    72px;
+    --radius:   14px;
+    --shadow:   0 4px 32px rgba(10,22,40,.10);
+    --shadow-lg:0 12px 60px rgba(10,22,40,.16);
+    --transition: .3s cubic-bezier(.4,0,.2,1);
+  }
+  [data-theme="dark"] {
+    --bg:       #060e1e;
+    --surface:  #0d1b30;
+    --text:     #e8f0fe;
+    --text-muted:#8aa4cc;
+    --border:   #1a2d50;
+    --blue-100: #1a2d50;
+    --shadow:   0 4px 32px rgba(0,0,0,.40);
+    --shadow-lg:0 12px 60px rgba(0,0,0,.55);
+  }
+
+  /* ─── RESET & BASE ─────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background var(--transition), color var(--transition);
+    overflow-x: hidden;
+  }
+  h1,h2,h3,h4 { font-family: 'Playfair Display', serif; line-height: 1.15; }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; }
+  section { padding: 90px 0; }
+
+  /* ─── NAV ───────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+    height: var(--nav-h);
+    display: flex; align-items: center;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    transition: background var(--transition);
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 900;
+    color: var(--blue-600);
+    letter-spacing: -.5px;
+  }
+  .logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a {
+    font-size: .9rem; font-weight: 500;
+    color: var(--text-muted);
+    transition: color var(--transition);
+  }
+  .nav-links a:hover { color: var(--blue-500); }
+  .nav-cta {
+    background: var(--blue-600); color: #fff !important;
+    padding: 9px 22px; border-radius: 50px;
+    font-size: .85rem !important; font-weight: 600 !important;
+    transition: background var(--transition), transform var(--transition) !important;
+  }
+  .nav-cta:hover { background: var(--blue-700) !important; transform: translateY(-1px); }
+
+  /* dark mode toggle */
+  .theme-btn {
+    background: var(--blue-100); border: none; cursor: pointer;
+    width: 42px; height: 42px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    transition: background var(--transition), transform var(--transition);
+    flex-shrink: 0;
+  }
+  .theme-btn:hover { transform: rotate(20deg); }
+
+  /* hamburger */
+  .ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+  .ham span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: var(--transition); }
+
+  /* ─── HERO ──────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding-top: var(--nav-h);
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 40%, rgba(37,99,235,.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 10% 80%, rgba(240,180,41,.07) 0%, transparent 60%),
+      var(--bg);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232563eb' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1200px; margin: 0 auto; padding: 0 24px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--blue-100); color: var(--blue-600);
+    padding: 6px 16px; border-radius: 50px; font-size: .8rem; font-weight: 600;
+    margin-bottom: 20px;
+    animation: fadeUp .6s ease both;
+  }
+  .hero-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue-500); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 900; line-height: 1.08;
+    animation: fadeUp .7s .1s ease both;
+  }
+  .hero h1 em { font-style: normal; color: var(--blue-500); }
+  .hero h1 .gold { color: var(--gold); }
+  .hero-sub {
+    margin-top: 20px; font-size: 1.1rem;
+    color: var(--text-muted); line-height: 1.75;
+    max-width: 500px;
+    animation: fadeUp .7s .2s ease both;
+  }
+  .hero-stats {
+    display: flex; gap: 32px; margin-top: 32px;
+    animation: fadeUp .7s .3s ease both;
+  }
+  .hero-stat strong { display: block; font-size: 1.6rem; font-weight: 700; color: var(--blue-600); }
+  .hero-stat span { font-size: .8rem; color: var(--text-muted); font-weight: 500; }
+  .hero-btns {
+    display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px;
+    animation: fadeUp .7s .4s ease both;
+  }
+  .btn-primary {
+    background: var(--blue-600); color: #fff;
+    padding: 14px 28px; border-radius: 50px;
+    font-weight: 600; font-size: .95rem;
+    box-shadow: 0 4px 20px rgba(37,99,235,.35);
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--blue-700); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,99,235,.45); }
+  .btn-outline {
+    background: transparent; color: var(--blue-600);
+    padding: 13px 28px; border-radius: 50px;
+    font-weight: 600; font-size: .95rem;
+    border: 2px solid var(--blue-400);
+    transition: all var(--transition);
+    cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-outline:hover { background: var(--blue-100); transform: translateY(-2px); }
+
+  /* hero visual */
+  .hero-visual {
+    position: relative; animation: fadeUp .8s .2s ease both;
+  }
+  .hero-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+    position: relative; overflow: hidden;
+  }
+  .hero-card::before {
+    content:'';
+    position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(37,99,235,.15), transparent 70%);
+  }
+  .card-head {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+  }
+  .avatar {
+    width: 58px; height: 58px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue-600), var(--blue-400));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; font-weight: 700; color: #fff;
+    flex-shrink: 0;
+  }
+  .card-head-text strong { display: block; font-size: 1rem; font-weight: 600; }
+  .card-head-text span { font-size: .8rem; color: var(--text-muted); }
+  .chart-bars {
+    display: flex; align-items: flex-end; gap: 8px; height: 90px; margin-bottom: 16px;
+  }
+  .bar {
+    flex: 1; border-radius: 6px 6px 0 0;
+    background: linear-gradient(to top, var(--blue-600), var(--blue-400));
+    animation: growBar .8s ease both;
+    transform-origin: bottom;
+  }
+  @keyframes growBar { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+  .bar:nth-child(1){height:45%;animation-delay:.1s}
+  .bar:nth-child(2){height:65%;animation-delay:.15s}
+  .bar:nth-child(3){height:40%;animation-delay:.2s}
+  .bar:nth-child(4){height:80%;animation-delay:.25s}
+  .bar:nth-child(5){height:55%;animation-delay:.3s}
+  .bar:nth-child(6){height:90%;animation-delay:.35s;background:linear-gradient(to top,var(--gold),var(--gold-lt))}
+  .bar:nth-child(7){height:70%;animation-delay:.4s}
+  .card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    background: var(--blue-100); color: var(--blue-600);
+    padding: 5px 12px; border-radius: 50px;
+    font-size: .75rem; font-weight: 600;
+  }
+  .tag.gold { background: #fef3c7; color: #92400e; }
+
+  /* floating pill */
+  .float-pill {
+    position: absolute; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 50px;
+    padding: 10px 16px; font-size: .8rem; font-weight: 600;
+    box-shadow: var(--shadow);
+    display: flex; align-items: center; gap: 8px;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .float-pill.pill-1 { top: -16px; left: 20px; animation-delay: 0s; }
+  .float-pill.pill-2 { bottom: -16px; right: 20px; animation-delay: 1s; }
+  .pill-icon { font-size: 1.1rem; }
+
+  /* ─── SECTION WRAPPER ───────────────────────────── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .section-label {
+    display: inline-block;
+    background: var(--blue-100); color: var(--blue-600);
+    padding: 5px 14px; border-radius: 50px;
+    font-size: .78rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .section-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; margin-bottom: 14px; }
+  .section-sub { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; max-width: 580px; }
+
+  /* ─── WHAT YOU'LL LEARN ─────────────────────────── */
+  .learn-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;
+    margin-top: 48px;
+  }
+  .learn-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  }
+  .learn-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--blue-400); }
+  .learn-icon { font-size: 2rem; margin-bottom: 14px; }
+  .learn-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+  .learn-card p { font-size: .9rem; color: var(--text-muted); line-height: 1.65; }
+
+  /* ─── COURSES ───────────────────────────────────── */
+  #courses { background: var(--surface); }
+  .course-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px;
+    margin-top: 48px;
+  }
+  .course-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .course-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+  .course-top {
+    background: linear-gradient(135deg, var(--blue-700), var(--blue-500));
+    padding: 28px; color: #fff;
+  }
+  .course-badge {
+    background: rgba(255,255,255,.2); color: #fff;
+    padding: 4px 12px; border-radius: 50px; font-size: .75rem; font-weight: 600;
+    display: inline-block; margin-bottom: 12px;
+  }
+  .course-top h3 { font-size: 1.3rem; font-family: 'Playfair Display', serif; }
+  .course-top .price {
+    font-size: 1.8rem; font-weight: 700;
+    color: var(--gold-lt); margin-top: 12px; display: block;
+  }
+  .course-top .price small { font-size: .85rem; opacity: .8; font-weight: 400; }
+  .course-body { padding: 24px; }
+  .course-meta { display: flex; gap: 16px; margin-bottom: 18px; }
+  .meta-item { display: flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--text-muted); font-weight: 500; }
+  .modules { list-style: none; margin-bottom: 20px; }
+  .modules li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 0; border-bottom: 1px solid var(--border);
+    font-size: .88rem; color: var(--text-muted);
+  }
+  .modules li:last-child { border-bottom: none; }
+  .modules li::before { content: '✓'; color: var(--blue-500); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .course-card .btn-primary { width: 100%; justify-content: center; }
+
+  /* ─── LEAD FORM ─────────────────────────────────── */
+  #enroll {
+    background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 100%);
+    position: relative; overflow: hidden;
+  }
+  #enroll::before {
+    content:'';
+    position:absolute; top:-100px; right:-100px;
+    width:400px; height:400px; border-radius:50%;
+    background: radial-gradient(circle, rgba(240,180,41,.15), transparent 70%);
+    pointer-events:none;
+  }
+  .form-wrap {
+    max-width: 640px; margin: 0 auto;
+    background: var(--surface); border-radius: 24px;
+    padding: 48px; box-shadow: var(--shadow-lg);
+    margin-top: 40px;
+  }
+  .form-wrap h2 { font-size: 1.9rem; margin-bottom: 6px; }
+  .form-wrap p { color: var(--text-muted); font-size: .95rem; margin-bottom: 28px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-size: .83rem; font-weight: 600; color: var(--text-muted); }
+  input, select, textarea {
+    background: var(--bg); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 12px 14px;
+    font-family: 'DM Sans', sans-serif; font-size: .9rem;
+    color: var(--text);
+    transition: border-color var(--transition), box-shadow var(--transition);
+    outline: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--blue-500);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+  }
+  select { cursor: pointer; }
+  textarea { resize: vertical; min-height: 90px; }
+  .form-submit { margin-top: 8px; }
+  .form-submit .btn-primary { width: 100%; justify-content: center; font-size: 1rem; padding: 16px; }
+
+  /* ─── RESOURCES ─────────────────────────────────── */
+  .resources-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;
+    margin-top: 48px;
+  }
+  .resource-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px;
+    display: flex; flex-direction: column;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .resource-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .resource-card .rc-icon { font-size: 2.2rem; margin-bottom: 14px; }
+  .resource-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+  .resource-card p { font-size: .88rem; color: var(--text-muted); line-height: 1.65; flex: 1; }
+  .resource-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--blue-500); font-size: .85rem; font-weight: 600;
+    margin-top: 16px;
+    transition: gap var(--transition);
+  }
+  .resource-link:hover { gap: 10px; }
+
+  /* blog posts */
+  .blog-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+    margin-top: 32px;
+  }
+  .blog-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .blog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .blog-tag {
+    background: var(--blue-100); color: var(--blue-600);
+    padding: 3px 10px; border-radius: 50px; font-size: .72rem; font-weight: 700;
+    display: inline-block; margin-bottom: 12px;
+  }
+  .blog-card h4 { font-size: 1rem; margin-bottom: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+  .blog-card p { font-size: .85rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ─── ABOUT ─────────────────────────────────────── */
+  #about { background: var(--surface); }
+  .about-inner {
+    display: grid; grid-template-columns: 1fr 1.5fr; gap: 64px; align-items: center;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-img-wrap {
+    width: 100%;
+    aspect-ratio: 4/5;
+    border-radius: 24px;
+    background: linear-gradient(145deg, var(--blue-800), var(--blue-600));
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px; color: #fff;
+    font-size: 5rem; box-shadow: var(--shadow-lg);
+    position: relative; overflow: hidden;
+  }
+  .about-img-wrap::after {
+    content:'';
+    position:absolute;inset:0;
+    background: linear-gradient(to top, rgba(0,0,0,.4), transparent);
+  }
+  .about-img-wrap .initials {
+    font-family:'Playfair Display',serif;
+    font-size: 5rem; font-weight: 900; z-index:1;
+    color:#fff; letter-spacing:-2px;
+  }
+  .about-img-wrap .tagline {
+    font-size:.9rem; font-weight:600; z-index:1; opacity:.8;
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .about-badge-float {
+    position:absolute; bottom: -14px; right: -14px;
+    background: var(--gold); color: var(--blue-900);
+    border-radius: 16px; padding: 14px 18px;
+    font-weight: 700; font-size: .85rem; line-height: 1.3;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .about-text .section-title { margin-bottom: 18px; }
+  .about-text p { color: var(--text-muted); line-height: 1.8; margin-bottom: 16px; font-size: .95rem; }
+  .philosophy-box {
+    background: var(--blue-100); border-left: 4px solid var(--blue-500);
+    border-radius: 0 12px 12px 0; padding: 18px 20px;
+    margin: 24px 0;
+    font-style: italic; color: var(--blue-700); font-size: .95rem; line-height: 1.65;
+  }
+  [data-theme="dark"] .philosophy-box { color: var(--blue-300); }
+  .markets-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .market-chip {
+    background: var(--surface); border: 1.5px solid var(--blue-400);
+    color: var(--blue-500); padding: 7px 16px; border-radius: 50px;
+    font-size: .82rem; font-weight: 600;
+  }
+
+  /* ─── CONTACT ───────────────────────────────────── */
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 48px;
+  }
+  .contact-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 32px;
+    display: flex; align-items: flex-start; gap: 18px;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .contact-icon-wrap {
+    width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+  }
+  .contact-icon-wrap.green { background: #dcfce7; }
+  .contact-icon-wrap.blue  { background: var(--blue-100); }
+  .contact-icon-wrap.sky   { background: #e0f2fe; }
+  .contact-icon-wrap.dark  { background: #f1f5f9; }
+  .contact-info strong { display: block; font-size: 1.05rem; margin-bottom: 4px; }
+  .contact-info p { font-size: .88rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; }
+  .contact-info a.btn-sm {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--blue-600); color: #fff;
+    padding: 8px 18px; border-radius: 50px;
+    font-size: .83rem; font-weight: 600;
+    transition: background var(--transition), transform var(--transition);
+  }
+  .contact-info a.btn-sm:hover { background: var(--blue-700); transform: translateY(-1px); }
+  .contact-info a.btn-sm.green { background: #16a34a; }
+  .contact-info a.btn-sm.green:hover { background: #15803d; }
+
+  .social-row {
+    display: flex; gap: 14px; margin-top: 40px; justify-content: center; flex-wrap: wrap;
+  }
+  .social-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface); border: 1.5px solid var(--border);
+    padding: 10px 20px; border-radius: 50px;
+    font-size: .88rem; font-weight: 600;
+    transition: all var(--transition); cursor: pointer;
+  }
+  .social-btn:hover { border-color: var(--blue-400); color: var(--blue-600); transform: translateY(-2px); box-shadow: var(--shadow); }
+
+  /* ─── FLOATING CTA BAR ──────────────────────────── */
+  .float-cta {
+    position: fixed; bottom: 24px; right: 24px; z-index: 800;
+    display: flex; flex-direction: column; gap: 10px;
+    align-items: flex-end;
+  }
+  .fcta-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 20px; border-radius: 50px;
+    font-size: .85rem; font-weight: 700;
+    box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    cursor: pointer; border: none;
+    transition: transform var(--transition), box-shadow var(--transition);
+    white-space: nowrap;
+  }
+  .fcta-btn:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 30px rgba(0,0,0,.25); }
+  .fcta-btn.join  { background: var(--blue-600); color: #fff; }
+  .fcta-btn.guide { background: var(--gold); color: var(--blue-900); }
+  .fcta-btn.book  { background: #16a34a; color: #fff; }
+  .fcta-btn.wa    { background: #25d366; color: #fff; }
+  .float-toggle {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--blue-600); color: #fff;
+    border: none; cursor: pointer; font-size: 1.3rem;
+    box-shadow: 0 4px 20px rgba(37,99,235,.4);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform var(--transition), background var(--transition);
+  }
+  .float-toggle:hover { background: var(--blue-700); transform: scale(1.08); }
+  .float-options { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+  .float-options.hidden { display: none; }
+
+  /* ─── FOOTER ────────────────────────────────────── */
+  footer {
+    background: var(--blue-900); color: rgba(255,255,255,.75);
+    padding: 56px 0 28px;
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto; padding: 0 24px;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 48px; margin-bottom: 48px;
+  }
+  .footer-brand .logo { font-size: 1.6rem; margin-bottom: 12px; display: block; }
+  .footer-brand p { font-size: .88rem; line-height: 1.7; max-width: 300px; }
+  .footer-col h4 { color: #fff; font-size: .9rem; font-weight: 600; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li a { font-size: .88rem; transition: color var(--transition); }
+  .footer-col ul li a:hover { color: #fff; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: .82rem; flex-wrap: wrap; gap: 12px;
+  }
+
+  /* ─── ANIMATIONS ────────────────────────────────── */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── PAGE SECTIONS (SPA) ───────────────────────── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ─── TOAST ─────────────────────────────────────── */
+  .toast {
+    position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #16a34a; color: #fff;
+    padding: 14px 28px; border-radius: 50px;
+    font-weight: 600; font-size: .9rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,.2);
+    opacity: 0; transition: all .4s ease; z-index: 9999;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ─── MOBILE NAV ────────────────────────────────── */
+  .mobile-menu {
+    display: none; position: fixed; top: var(--nav-h); left: 0; right: 0;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 20px 24px; z-index: 850; flex-direction: column; gap: 16px;
+    box-shadow: var(--shadow-lg);
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { font-weight: 500; color: var(--text-muted); font-size: .95rem; }
+  .mobile-menu a:hover { color: var(--blue-500); }
+
+  /* ─── RESPONSIVE ────────────────────────────────── */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero-visual { order: -1; }
+    .about-inner { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .ham { display: flex; }
+  }
+  @media (max-width: 600px) {
+    section { padding: 60px 0; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: auto; }
+    .footer-top { grid-template-columns: 1fr; }
+    .hero-stats { gap: 20px; }
+    .hero-stat strong { font-size: 1.3rem; }
+    .float-cta { bottom: 16px; right: 16px; }
+    .fcta-btn { font-size: .78rem; padding: 10px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#" onclick="showPage('home')">Notes<span>&amp;Coins</span></a>
+    <div class="nav-links">
+      <a href="#" onclick="showPage('home')">Home</a>
+      <a href="#" onclick="showPage('courses')">Courses</a>
+      <a href="#" onclick="showPage('resources')">Resources</a>
+      <a href="#" onclick="showPage('about')">About</a>
+      <a href="#" onclick="showPage('contact')">Contact</a>
+      <a href="#" class="nav-cta" onclick="showPage('home');scrollToEnroll()">Enroll Now</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="theme-btn" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+      <button class="ham" onclick="toggleMobileMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="showPage('home');closeMobileMenu()">🏠 Home</a>
+  <a href="#" onclick="showPage('courses');closeMobileMenu()">📚 Courses</a>
+  <a href="#" onclick="showPage('resources');closeMobileMenu()">📖 Resources</a>
+  <a href="#" onclick="showPage('about');closeMobileMenu()">👤 About</a>
+  <a href="#" onclick="showPage('contact');closeMobileMenu()">📬 Contact</a>
+  <a href="#" onclick="showPage('home');scrollToEnroll();closeMobileMenu()" style="color:var(--blue-600);font-weight:700;">🚀 Enroll Now</a>
+</div>
+
+<!-- ══════════════ PAGE: HOME ══════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge"><span class="dot"></span> Forex Education &amp; Mentorship</div>
+        <h1>Master the Markets.<br>Trade with <em>Precision</em>,<br>Build <span class="gold">Wealth</span>.</h1>
+        <p class="hero-sub">Professional forex mentorship covering Gold, US100, and Futures — taught by a seasoned trader with 4 years of live market experience. Learn the <strong>Hail Mary</strong> trading philosophy.</p>
+        <div class="hero-stats">
+          <div class="hero-stat"><strong>4+</strong><span>Years Trading</span></div>
+          <div class="hero-stat"><strong>3</strong><span>Markets Covered</span></div>
+          <div class="hero-stat"><strong>3mo</strong><span>Max Mentorship</span></div>
+        </div>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="showPage('home');scrollToEnroll()">🎓 Join My Forex Class</button>
+          <button class="btn-outline" onclick="showPage('resources')">📘 Get Free Trading Guide</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="float-pill pill-1"><span class="pill-icon">📈</span> XAU/USD +2.3%</div>
+        <div class="hero-card">
+          <div class="card-head">
+            <div class="avatar">NC</div>
+            <div class="card-head-text">
+              <strong>NotesAndCoins Trader</strong>
+              <span>🟢 Live &amp; Educating</span>
+            </div>
+          </div>
+          <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:14px;">Monthly performance overview</p>
+          <div class="chart-bars">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+          <div class="card-tags">
+            <span class="tag">Gold / XAU</span>
+            <span class="tag">US100</span>
+            <span class="tag">Futures</span>
+            <span class="tag gold">Hail Mary ⚡</span>
+          </div>
+        </div>
+        <div class="float-pill pill-2"><span class="pill-icon">🏆</span> Prop Firm Ready</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU'LL LEARN -->
+  <section>
+    <div class="container">
+      <span class="section-label reveal">Curriculum</span>
+      <h2 class="section-title reveal">What You'll Learn</h2>
+      <p class="section-sub reveal">A structured, practical curriculum designed to take you from beginner to confident, consistent trader.</p>
+      <div class="learn-grid">
+        <div class="learn-card reveal">
+          <div class="learn-icon">📊</div>
+          <h3>Forex Fundamentals</h3>
+          <p>Understand currency pairs, pip values, lot sizes, market sessions, and how the forex market operates from the ground up.</p>
+        </div>
+        <div class="learn-card reveal">
+          <div class="learn-icon">🕯️</div>
+          <h3>Price Action Mastery</h3>
+          <p>Read raw charts like a pro. Learn candlestick patterns, support &amp; resistance, market structure, and trend identification.</p>
+        </div>
+        <div class="learn-card reveal">
+          <div class="learn-icon">🛡️</div>
+          <h3>Risk Management</h3>
+          <p>Position sizing, stop-loss strategies, risk-to-reward ratios, and capital protection — the foundation of every profitable trader.</p>
+        </div>
+        <div class="learn-card reveal">
+          <div class="learn-icon">🏦</div>
+          <h3>Prop Firm Trading</h3>
+          <p>Navigate FTMO, MyFundedFX, and other prop challenges. Learn rules, drawdown management, and how to pass evaluations.</p>
+        </div>
+        <div class="learn-card reveal">
+          <div class="learn-icon">🧠</div>
+          <h3>Trading Psychology</h3>
+          <p>Overcome fear, greed, and revenge trading. Build discipline, patience, and the mindset of a professional trader.</p>
+        </div>
+        <div class="learn-card reveal">
+          <div class="learn-icon">⚡</div>
+          <h3>Hail Mary Philosophy</h3>
+          <p>My unique trading philosophy — strategic, high-conviction setups that maximise returns while keeping risks calculated.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAD CAPTURE FORM -->
+  <section id="enroll">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:8px;">
+        <span class="section-label" style="background:rgba(255,255,255,.15);color:#fff;">Get Started</span>
+        <h2 class="section-title reveal" style="color:#fff;">Ready to Start Your<br>Trading Journey?</h2>
+        <p class="section-sub reveal" style="color:rgba(255,255,255,.75);margin:0 auto;">Fill in the form below and I'll reach out to discuss the best program for you.</p>
+      </div>
+      <div class="form-wrap reveal">
+        <h2>Join My Trading Program</h2>
+        <p>No spam. Just education, market insights, and guidance tailored to you.</p>
+        <form id="leadForm" onsubmit="submitForm(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" placeholder="Your full name" required />
+            </div>
+            <div class="form-group">
+              <label>Email Address *</label>
+              <input type="email" placeholder="you@example.com" required />
+            </div>
+            <div class="form-group">
+              <label>Phone / WhatsApp *</label>
+              <input type="tel" placeholder="+254 7xx xxx xxx" required />
+            </div>
+            <div class="form-group">
+              <label>Trading Experience *</label>
+              <select required>
+                <option value="" disabled selected>Select your level</option>
+                <option>Beginner — Just starting out</option>
+                <option>Intermediate — Some experience</option>
+                <option>Advanced — Consistent but want to level up</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label>I'm interested in *</label>
+              <select required>
+                <option value="" disabled selected>What are you looking for?</option>
+                <option>1-on-1 Mentorship</option>
+                <option>Forex Course (Self-paced)</option>
+                <option>Prop Firm Trading Training</option>
+                <option>All of the above</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label>Tell me your goal (optional)</label>
+              <textarea placeholder="e.g. I want to pass a prop firm challenge, become a full-time trader, etc."></textarea>
+            </div>
+          </div>
+          <div class="form-submit">
+            <button type="submit" class="btn-primary">🚀 Submit &amp; Get Started</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page-home -->
+
+<!-- ══════════════ PAGE: COURSES ══════════════ -->
+<div id="page-courses" class="page">
+  <div style="height:var(--nav-h)"></div>
+  <section>
+    <div class="container">
+      <span class="section-label">Programs</span>
+      <h2 class="section-title">Courses &amp; Mentorship</h2>
+      <p class="section-sub">Structured programs designed for all experience levels. Every plan includes live market analysis, community access, and direct mentorship.</p>
+
+      <div class="course-grid" style="margin-top:48px;">
+
+        <!-- Starter -->
+        <div class="course-card">
+          <div class="course-top">
+            <span class="course-badge">⭐ Starter</span>
+            <h3>Forex Foundations Course</h3>
+            <span class="price">$50 <small>/ one-time</small></span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="meta-item">⏱ 3 Weeks</span>
+              <span class="meta-item">🎓 Beginner</span>
+              <span class="meta-item">📱 Self-paced</span>
+            </div>
+            <ul class="modules">
+              <li>Forex basics &amp; market structure</li>
+              <li>Understanding currency pairs &amp; sessions</li>
+              <li>Candlestick patterns &amp; charts</li>
+              <li>Introduction to risk management</li>
+              <li>Setting up your trading platform</li>
+            </ul>
+            <button class="btn-primary" onclick="showPage('home');scrollToEnroll()">Enroll Now →</button>
+          </div>
+        </div>
+
+        <!-- Intermediate -->
+        <div class="course-card">
+          <div class="course-top" style="background:linear-gradient(135deg,#1e3a5f,#1e4db7)">
+            <span class="course-badge">🔥 Most Popular</span>
+            <h3>Price Action &amp; Mentorship</h3>
+            <span class="price">$120 <small>/ program</small></span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="meta-item">⏱ 6 Weeks</span>
+              <span class="meta-item">📈 Intermediate</span>
+              <span class="meta-item">👨‍💻 Live sessions</span>
+            </div>
+            <ul class="modules">
+              <li>Advanced price action strategies</li>
+              <li>Support, resistance &amp; supply/demand</li>
+              <li>Prop firm challenge strategies</li>
+              <li>Trading psychology &amp; discipline</li>
+              <li>Hail Mary trading philosophy</li>
+              <li>Weekly live trade reviews</li>
+            </ul>
+            <button class="btn-primary" onclick="showPage('home');scrollToEnroll()">Enroll Now →</button>
+          </div>
+        </div>
+
+        <!-- Pro Mentorship -->
+        <div class="course-card">
+          <div class="course-top" style="background:linear-gradient(135deg,#0a1628,#1a3a6b)">
+            <span class="course-badge" style="background:rgba(240,180,41,.25);color:#fde68a;">💎 Premium</span>
+            <h3>Full Mentorship Program</h3>
+            <span class="price">$200 <small>/ 3 months</small></span>
+          </div>
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="meta-item">⏱ 3 Months</span>
+              <span class="meta-item">🏆 All levels</span>
+              <span class="meta-item">🎯 1-on-1</span>
+            </div>
+            <ul class="modules">
+              <li>Complete A–Z forex curriculum</li>
+              <li>Gold, US100 &amp; Futures deep-dive</li>
+              <li>Prop firm evaluation coaching</li>
+              <li>Live trade-alongs &amp; feedback</li>
+              <li>Personalized trading journal reviews</li>
+              <li>Direct WhatsApp access to mentor</li>
+              <li>Post-program community access</li>
+            </ul>
+            <button class="btn-primary" onclick="showPage('home');scrollToEnroll()">Book Mentorship →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module breakdown -->
+      <div style="margin-top:60px;">
+        <h3 style="font-size:1.6rem;margin-bottom:8px;">Full Curriculum Modules</h3>
+        <p style="color:var(--text-muted);margin-bottom:28px;">All programs draw from this comprehensive curriculum:</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+          <div class="learn-card"><div class="learn-icon">1️⃣</div><h3>Module 1</h3><p>Forex Basics — market mechanics, participants, and structure.</p></div>
+          <div class="learn-card"><div class="learn-icon">2️⃣</div><h3>Module 2</h3><p>Price Action — reading charts, patterns, and key levels.</p></div>
+          <div class="learn-card"><div class="learn-icon">3️⃣</div><h3>Module 3</h3><p>Risk Management — position sizing, drawdown &amp; capital rules.</p></div>
+          <div class="learn-card"><div class="learn-icon">4️⃣</div><h3>Module 4</h3><p>Prop Firm Trading — challenge rules, strategy, and passing.</p></div>
+          <div class="learn-card"><div class="learn-icon">5️⃣</div><h3>Module 5</h3><p>Psychology in Trading — discipline, patience &amp; mindset mastery.</p></div>
+          <div class="learn-card"><div class="learn-icon">6️⃣</div><h3>Module 6</h3><p>Live Application — real-time trading sessions &amp; review.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════ PAGE: RESOURCES ══════════════ -->
+<div id="page-resources" class="page">
+  <div style="height:var(--nav-h)"></div>
+  <section>
+    <div class="container">
+      <span class="section-label">Free Learning</span>
+      <h2 class="section-title">Trading Resources &amp; Guides</h2>
+      <p class="section-sub">Free tools, guides, and content to kickstart your trading education — no payment needed.</p>
+
+      <div class="resources-grid">
+        <div class="resource-card">
+          <div class="rc-icon">📘</div>
+          <h3>Beginner Forex Guide</h3>
+          <p>A comprehensive starter guide covering everything you need to know before placing your first trade. Includes glossary, platform setup, and first-trade checklist.</p>
+          <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link">Read Guide →</a>
+        </div>
+        <div class="resource-card">
+          <div class="rc-icon">📉</div>
+          <h3>Risk Management Cheatsheet</h3>
+          <p>The one-page cheatsheet every trader must have. Lot size calculator guide, max daily loss rules, and risk-per-trade frameworks.</p>
+          <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link">Download →</a>
+        </div>
+        <div class="resource-card">
+          <div class="rc-icon">🏦</div>
+          <h3>Prop Firm Challenge Guide</h3>
+          <p>How to choose a prop firm, understand their rules, set realistic targets, and avoid the common mistakes that get accounts blown.</p>
+          <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link">Read Guide →</a>
+        </div>
+        <div class="resource-card">
+          <div class="rc-icon">🧠</div>
+          <h3>Trading Psychology Workbook</h3>
+          <p>Practical exercises to identify your emotional triggers, build a pre-trading routine, and develop the mindset of a disciplined trader.</p>
+          <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link">Get Workbook →</a>
+        </div>
+      </div>
+
+      <!-- Blog / Substack -->
+      <div style="margin-top:60px;">
+        <h3 style="font-size:1.5rem;margin-bottom:6px;">From the Blog</h3>
+        <p style="color:var(--text-muted);margin-bottom:24px;">Market breakdowns, trading insights, and mindset content — straight from <a href="https://www.substack.com/notesandcoins" target="_blank" style="color:var(--blue-500);font-weight:600;">NotesAndCoins on Substack</a>.</p>
+        <div class="blog-grid">
+          <div class="blog-card">
+            <span class="blog-tag">Price Action</span>
+            <h4>Why Most Traders Fail at Reading Price Action</h4>
+            <p>The key mistake beginners make is chasing indicators instead of learning the raw story the chart is telling...</p>
+            <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link" style="margin-top:12px;">Read on Substack →</a>
+          </div>
+          <div class="blog-card">
+            <span class="blog-tag">Risk Management</span>
+            <h4>The 1% Rule That Saved My Trading Account</h4>
+            <p>Risking more than 1–2% per trade is the fastest way to blow an account. Here's how to apply it consistently...</p>
+            <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link" style="margin-top:12px;">Read on Substack →</a>
+          </div>
+          <div class="blog-card">
+            <span class="blog-tag">Prop Firms</span>
+            <h4>How I Passed My First Prop Firm Challenge</h4>
+            <p>A step-by-step breakdown of my mindset, strategy, and daily routine during the evaluation period...</p>
+            <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link" style="margin-top:12px;">Read on Substack →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- YouTube -->
+      <div style="margin-top:60px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px;display:flex;align-items:center;gap:28px;flex-wrap:wrap;">
+        <div style="font-size:3.5rem;">▶️</div>
+        <div style="flex:1;min-width:200px;">
+          <h3 style="font-size:1.4rem;margin-bottom:8px;">Market Breakdowns on YouTube</h3>
+          <p style="color:var(--text-muted);font-size:.93rem;line-height:1.65;">Weekly live market analysis, trade setups, and educational content on my YouTube channel. Subscribe to stay updated on Gold, US100, and Futures.</p>
+          <a href="https://www.youtube.com/@CoinsMinister" target="_blank" class="btn-primary" style="display:inline-flex;margin-top:18px;text-decoration:none;">▶ Watch on YouTube</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════ PAGE: ABOUT ══════════════ -->
+<div id="page-about" class="page">
+  <div style="height:var(--nav-h)"></div>
+  <section id="about">
+    <div class="container">
+      <div class="about-inner">
+        <div class="about-visual">
+          <div class="about-img-wrap">
+            <span class="initials">N&amp;C</span>
+            <span class="tagline">Forex Mentor</span>
+          </div>
+          <div class="about-badge-float">🏆 4 Years<br>Live Trading</div>
+        </div>
+        <div class="about-text">
+          <span class="section-label">About the Tutor</span>
+          <h2 class="section-title">My Journey from<br>Student to Mentor</h2>
+          <p>I started my trading journey in <strong>2022</strong>, curious about the financial markets and driven by a desire for financial freedom. Like most traders, my early days were filled with losses, lessons, and a lot of screen time — but also growth.</p>
+          <p>Over the past <strong>4 years</strong>, I've developed a deep understanding of the markets I trade: <strong>Gold (XAU/USD), Futures, and US100 CFDs</strong>. These aren't just charts to me — they're opportunities I've spent thousands of hours learning to read with precision.</p>
+          <p>My approach to trading is captured in what I call the <strong>Hail Mary philosophy</strong> — strategic, high-conviction trades built on solid analysis, disciplined risk management, and unwavering patience.</p>
+          <div class="philosophy-box">
+            "The Hail Mary isn't about luck — it's about waiting for the right setup, trusting your analysis, and executing with conviction. Every trade is a calculated bet, not a gamble."
+          </div>
+          <p>Today, I combine live trading with mentorship through <strong>NotesAndCoins</strong> — sharing weekly market analysis on YouTube, publishing insights on Substack, and mentoring students one-on-one through structured programs that deliver real results.</p>
+          <div style="margin-top:24px;">
+            <strong style="display:block;margin-bottom:12px;font-size:.9rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Markets I Trade</strong>
+            <div class="markets-row">
+              <span class="market-chip">🥇 Gold / XAU</span>
+              <span class="market-chip">📊 US100 CFDs</span>
+              <span class="market-chip">📈 Futures</span>
+            </div>
+          </div>
+          <div style="margin-top:28px;display:flex;gap:14px;flex-wrap:wrap;">
+            <button class="btn-primary" onclick="showPage('home');scrollToEnroll()">Book Mentorship →</button>
+            <a href="https://www.youtube.com/@CoinsMinister" target="_blank" class="btn-outline">Watch My Analysis</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════ PAGE: CONTACT ══════════════ -->
+<div id="page-contact" class="page">
+  <div style="height:var(--nav-h)"></div>
+  <section>
+    <div class="container">
+      <span class="section-label">Get in Touch</span>
+      <h2 class="section-title">Contact &amp; Community</h2>
+      <p class="section-sub">Have questions? Want to discuss a program? Reach out through any channel below — I respond personally.</p>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon-wrap green">💬</div>
+          <div class="contact-info">
+            <strong>WhatsApp Chat</strong>
+            <p>The fastest way to reach me. Send a message to discuss courses, ask trading questions, or book a call.</p>
+            <a href="https://wa.me/254717978836" target="_blank" class="btn-sm green">Open WhatsApp →</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon-wrap blue">✉️</div>
+          <div class="contact-info">
+            <strong>Email</strong>
+            <p>For detailed enquiries, partnership requests, or if you prefer email communication.</p>
+            <a href="mailto:hello.notescoins@gmail.com" class="btn-sm">Send Email →</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon-wrap sky">▶️</div>
+          <div class="contact-info">
+            <strong>YouTube Channel</strong>
+            <p>Weekly market breakdowns, trade analysis, and educational content. Subscribe and hit the bell.</p>
+            <a href="https://www.youtube.com/@CoinsMinister" target="_blank" class="btn-sm">Visit Channel →</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon-wrap dark">📝</div>
+          <div class="contact-info">
+            <strong>Substack Newsletter</strong>
+            <p>In-depth trading articles, market insights, and educational notes delivered to your inbox.</p>
+            <a href="https://www.substack.com/notesandcoins" target="_blank" class="btn-sm">Subscribe →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="social-row">
+        <a href="https://x.com" target="_blank" class="social-btn">𝕏 Follow on X (Twitter)</a>
+        <a href="https://www.youtube.com/@CoinsMinister" target="_blank" class="social-btn">▶ YouTube</a>
+        <a href="https://www.substack.com/notesandcoins" target="_blank" class="social-btn">📝 Substack</a>
+        <a href="https://wa.me/254717978836" target="_blank" class="social-btn">💬 WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo" style="color:#fff;">Notes<span>&amp;Coins</span></span>
+        <p>Professional forex education, mentorship, and trading insights. Empowering traders across Africa and beyond since 2022.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#" onclick="showPage('home')">Home</a></li>
+          <li><a href="#" onclick="showPage('courses')">Courses</a></li>
+          <li><a href="#" onclick="showPage('resources')">Resources</a></li>
+          <li><a href="#" onclick="showPage('about')">About</a></li>
+          <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://wa.me/254717978836" target="_blank">💬 WhatsApp</a></li>
+          <li><a href="mailto:hello.notescoins@gmail.com">✉ Email</a></li>
+          <li><a href="https://www.youtube.com/@CoinsMinister" target="_blank">▶ YouTube</a></li>
+          <li><a href="https://www.substack.com/notesandcoins" target="_blank">📝 Substack</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 NotesAndCoins. All rights reserved.</span>
+      <span>Built for traders, by a trader 📈</span>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING CTA -->
+<div class="float-cta">
+  <button class="float-toggle" onclick="toggleFloatMenu()" title="Quick Actions">⚡</button>
+  <div class="float-options hidden" id="floatOptions">
+    <button class="fcta-btn join" onclick="showPage('home');scrollToEnroll()">🎓 Join Forex Class</button>
+    <button class="fcta-btn guide" onclick="showPage('resources')">📘 Free Trading Guide</button>
+    <button class="fcta-btn book" onclick="showPage('home');scrollToEnroll()">📅 Book Mentorship</button>
+    <a href="https://wa.me/254717978836" target="_blank" class="fcta-btn wa">💬 WhatsApp Me</a>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✅ Form submitted! I'll be in touch soon.</div>
+
+<script>
+  // ── PAGE ROUTING ──
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setupReveal();
+  }
+
+  function scrollToEnroll() {
+    setTimeout(() => {
+      const el = document.getElementById('enroll');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  }
+
+  // ── DARK MODE ──
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.querySelector('.theme-btn').textContent = isDark ? '🌙' : '☀️';
+  }
+
+  // ── FLOAT MENU ──
+  function toggleFloatMenu() {
+    const opts = document.getElementById('floatOptions');
+    opts.classList.toggle('hidden');
+  }
+
+  // ── MOBILE MENU ──
+  function toggleMobileMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+
+  // ── FORM SUBMIT ──
+  function submitForm(e) {
+    e.preventDefault();
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    e.target.reset();
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  }
+
+  // ── REVEAL ON SCROLL ──
+  function setupReveal() {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => {
+      el.classList.remove('visible');
+      obs.observe(el);
+    });
+  }
+
+  // Close float menu when clicking elsewhere
+  document.addEventListener('click', (e) => {
+    const fc = document.querySelector('.float-cta');
+    if (fc && !fc.contains(e.target)) {
+      document.getElementById('floatOptions').classList.add('hidden');
+    }
+  });
+
+  // Init
+  setupReveal();
+</script>
+</body>
+</html>
