@@ -742,23 +742,23 @@
       <div class="form-wrap reveal">
         <h2>Join My Trading Program</h2>
         <p>No spam. Just education, market insights, and guidance tailored to you.</p>
-        <form id="leadForm" action="https://formspree.io/f/xyknpleo" method="POST" onsubmit="submitForm(event)">
+        <form id="leadForm" onsubmit="submitForm(event)">
           <div class="form-grid">
             <div class="form-group">
-              <label for="full_name">Full Name *</label>
-              <input id="full_name" type="text" name="full_name" placeholder="Your full name" required />
+              <label>Full Name *</label>
+              <input type="text" placeholder="Your full name" required />
             </div>
             <div class="form-group">
-              <label for="email">Email Address *</label>
-              <input id="email" type="email" name="email" placeholder="you@example.com" required />
+              <label>Email Address *</label>
+              <input type="email" placeholder="you@example.com" required />
             </div>
             <div class="form-group">
-              <label for="phone_whatsapp">Phone / WhatsApp *</label>
-              <input id="phone_whatsapp" type="tel" name="phone_whatsapp" placeholder="+254 7xx xxx xxx" required />
+              <label>Phone / WhatsApp *</label>
+              <input type="tel" placeholder="+254 7xx xxx xxx" required />
             </div>
             <div class="form-group">
-              <label for="trading_experience">Trading Experience *</label>
-              <select id="trading_experience" name="trading_experience" required>
+              <label>Trading Experience *</label>
+              <select required>
                 <option value="" disabled selected>Select your level</option>
                 <option>Beginner — Just starting out</option>
                 <option>Intermediate — Some experience</option>
@@ -766,8 +766,8 @@
               </select>
             </div>
             <div class="form-group full">
-              <label for="interest">I'm interested in *</label>
-              <select id="interest" name="interest" required>
+              <label>I'm interested in *</label>
+              <select required>
                 <option value="" disabled selected>What are you looking for?</option>
                 <option>1-on-1 Mentorship</option>
                 <option>Forex Course (Self-paced)</option>
@@ -776,8 +776,8 @@
               </select>
             </div>
             <div class="form-group full">
-              <label for="goal">Tell me your goal (optional)</label>
-              <textarea id="goal" name="goal" placeholder="e.g. I want to pass a prop firm challenge, become a full-time trader, etc."></textarea>
+              <label>Tell me your goal (optional)</label>
+              <textarea placeholder="e.g. I want to pass a prop firm challenge, become a full-time trader, etc."></textarea>
             </div>
           </div>
           <div class="form-submit">
@@ -908,7 +908,7 @@
           <div class="rc-icon">📘</div>
           <h3>Beginner Forex Guide</h3>
           <p>A comprehensive starter guide covering everything you need to know before placing your first trade. Includes glossary, platform setup, and first-trade checklist.</p>
-          <a href="https://notesandcoins.substack.com/p/forex-fundamentals?r=4zonvq" target="_blank" class="resource-link">Read Guide →</a>
+          <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link">Read Guide →</a>
         </div>
         <div class="resource-card">
           <div class="rc-icon">📉</div>
@@ -920,13 +920,13 @@
           <div class="rc-icon">🏦</div>
           <h3>Prop Firm Challenge Guide</h3>
           <p>How to choose a prop firm, understand their rules, set realistic targets, and avoid the common mistakes that get accounts blown.</p>
-          <a href="https://notesandcoins.substack.com/p/prop-firm-challenge-guide" target="_blank" class="resource-link">Read Guide →</a>
+          <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link">Read Guide →</a>
         </div>
         <div class="resource-card">
           <div class="rc-icon">🧠</div>
           <h3>Trading Psychology Workbook</h3>
           <p>Practical exercises to identify your emotional triggers, build a pre-trading routine, and develop the mindset of a disciplined trader.</p>
-          <a href="https://open.substack.com/pub/notesandcoins/p/the-disciplined-traders-mindset-workbook?r=4zonvq&utm_campaign=post&utm_medium=web&showWelcomeOnShare=true" target="_blank" class="resource-link">Get Workbook →</a>
+          <a href="https://www.substack.com/notesandcoins" target="_blank" class="resource-link">Get Workbook →</a>
         </div>
       </div>
 
@@ -1033,7 +1033,7 @@
           <div class="contact-info">
             <strong>Email</strong>
             <p>For detailed enquiries, partnership requests, or if you prefer email communication.</p>
-            <a href="/cdn-cgi/l/email-protection#b2dad7dededd9cdcddc6d7c1d1dddbdcc1f2d5dfd3dbde9cd1dddf" class="btn-sm">Send Email →</a>
+            <a href="mailto:hello.notescoins@gmail.com" class="btn-sm">Send Email →</a>
           </div>
         </div>
         <div class="contact-card">
@@ -1086,14 +1086,14 @@
         <h4>Connect</h4>
         <ul>
           <li><a href="https://wa.me/254717978836" target="_blank">💬 WhatsApp</a></li>
-          <li><a href="/cdn-cgi/l/email-protection#325a575e5e5d1c5c5d465741515d5b5c4172555f535b5e1c515d5f">✉ Email</a></li>
+          <li><a href="mailto:hello.notescoins@gmail.com">✉ Email</a></li>
           <li><a href="https://www.youtube.com/@CoinsMinister" target="_blank">▶ YouTube</a></li>
           <li><a href="https://www.substack.com/notesandcoins" target="_blank">📝 Substack</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 NotesAndCoins. All rights reserved.</span>
+      <span>© 2025 NotesAndCoins. All rights reserved.</span>
       <span>Built for traders, by a trader 📈</span>
     </div>
   </div>
@@ -1113,7 +1113,7 @@
 <!-- TOAST -->
 <div class="toast" id="toast">✅ Form submitted! I'll be in touch soon.</div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // ── PAGE ROUTING ──
   function showPage(name) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1151,43 +1151,16 @@
     document.getElementById('mobileMenu').classList.remove('open');
   }
 
-  // -- FORM SUBMIT --
-  async function submitForm(e) {
+  // ── FORM SUBMIT ──
+  function submitForm(e) {
     e.preventDefault();
-    const form = e.target;
-    const btn = form.querySelector('button[type="submit"]');
     const toast = document.getElementById('toast');
-
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-
-    try {
-      const response = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      });
-
-      if (response.ok) {
-        toast.textContent = "Form submitted! I'll be in touch soon.";
-        toast.style.background = '#16a34a';
-        form.reset();
-      } else {
-        toast.textContent = 'Something went wrong. Please try again.';
-        toast.style.background = '#dc2626';
-      }
-    } catch (err) {
-      toast.textContent = 'Network error. Please check your connection.';
-      toast.style.background = '#dc2626';
-    }
-
     toast.classList.add('show');
-    btn.disabled = false;
-    btn.innerHTML = 'Submit &amp; Get Started';
-    setTimeout(() => toast.classList.remove('show'), 4000);
+    e.target.reset();
+    setTimeout(() => toast.classList.remove('show'), 3500);
   }
 
-  // -- REVEAL ON SCROLL --
+  // ── REVEAL ON SCROLL ──
   function setupReveal() {
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -1204,15 +1177,80 @@
 
   // Close float menu when clicking elsewhere
   document.addEventListener('click', (e) => {
-    const fc = document.getElementById('floatOptions');
-    const ft = document.querySelector('.float-toggle');
-    if (fc && ft && !fc.contains(e.target) && !ft.contains(e.target)) {
-      fc.classList.add('hidden');
+    const fc = document.querySelector('.float-cta');
+    if (fc && !fc.contains(e.target)) {
+      document.getElementById('floatOptions').classList.add('hidden');
     }
   });
 
-  // Init on load
+  // Init
   setupReveal();
+</script>
+<script>
+  // ── CANDLESTICK CURSOR TRAIL ──
+  (function () {
+    const candleCanvas = document.createElement('canvas');
+    candleCanvas.id = 'candleTrailCanvas';
+    candleCanvas.style.position = 'fixed';
+    candleCanvas.style.top = '0';
+    candleCanvas.style.left = '0';
+    candleCanvas.style.width = '100%';
+    candleCanvas.style.height = '100%';
+    candleCanvas.style.pointerEvents = 'none';
+    candleCanvas.style.zIndex = '9999';
+    document.body.appendChild(candleCanvas);
+
+    const cctx = candleCanvas.getContext('2d');
+
+    function resizeCandleCanvas() {
+      candleCanvas.width = window.innerWidth;
+      candleCanvas.height = window.innerHeight;
+    }
+    resizeCandleCanvas();
+    window.addEventListener('resize', resizeCandleCanvas);
+
+    let candles = [];
+    let lastCandleY = null;
+
+    function addCandle(x, y) {
+      if (lastCandleY === null) lastCandleY = y;
+      const up = y < lastCandleY;
+      const height = Math.max(Math.abs(y - lastCandleY), 6) + 6;
+      candles.push({ x, y, height, up, life: 1 });
+      lastCandleY = y;
+      if (candles.length > 150) candles.shift();
+    }
+
+    window.addEventListener('mousemove', (e) => addCandle(e.clientX, e.clientY));
+    window.addEventListener('touchmove', (e) => {
+      const t = e.touches[0];
+      addCandle(t.clientX, t.clientY);
+    }, { passive: true });
+
+    function animateCandles() {
+      cctx.clearRect(0, 0, candleCanvas.width, candleCanvas.height);
+      candles.forEach((c) => {
+        const color = c.up
+          ? `rgba(34, 197, 94, ${c.life})`
+          : `rgba(239, 68, 68, ${c.life})`;
+
+        cctx.fillStyle = color;
+        cctx.fillRect(c.x - 3, c.y - c.height / 2, 6, c.height);
+
+        cctx.strokeStyle = color;
+        cctx.lineWidth = 1.5;
+        cctx.beginPath();
+        cctx.moveTo(c.x, c.y - c.height / 2 - 5);
+        cctx.lineTo(c.x, c.y + c.height / 2 + 5);
+        cctx.stroke();
+
+        c.life -= 0.025;
+      });
+      candles = candles.filter((c) => c.life > 0);
+      requestAnimationFrame(animateCandles);
+    }
+    animateCandles();
+  })();
 </script>
 </body>
 </html>
