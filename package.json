@@ -1,0 +1,24 @@
+{
+  "name": "notesandcoins",
+  "version": "1.0.0",
+  "description": "Forex Mentorship & Trading Education",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eratobryn-debug/notesandcoins.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eratobryn-debug/notesandcoins/issues"
+  },
+  "homepage": "https://github.com/eratobryn-debug/notesandcoins#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
