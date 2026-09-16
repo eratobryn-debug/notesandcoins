@@ -402,6 +402,75 @@
   .blog-card h4 { font-size: 1rem; margin-bottom: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; }
   .blog-card p { font-size: .85rem; color: var(--text-muted); line-height: 1.6; }
 
+  /* ─── NEWS ──────────────────────────────────────── */
+  .news-filters { display: flex; flex-wrap: wrap; gap: 10px; margin: 32px 0 8px; }
+  .filter-chip {
+    background: var(--surface); border: 1.5px solid var(--border);
+    color: var(--text-muted); padding: 8px 18px; border-radius: 50px;
+    font-size: .85rem; font-weight: 600; cursor: pointer;
+    transition: all var(--transition);
+  }
+  .filter-chip:hover { border-color: var(--blue-400); color: var(--blue-600); }
+  .filter-chip.active { background: var(--blue-600); border-color: var(--blue-600); color: #fff; }
+
+  .news-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
+    margin-top: 28px;
+  }
+  .news-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px; cursor: pointer;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    display: flex; flex-direction: column; text-align: left;
+  }
+  .news-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--blue-400); }
+  .news-date { font-size: .78rem; color: var(--text-muted); font-weight: 500; margin-bottom: 6px; }
+  .news-card h4 { font-size: 1.05rem; margin-bottom: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+  .news-card p { font-size: .88rem; color: var(--text-muted); line-height: 1.6; flex: 1; }
+  .news-readmore { margin-top: 14px; font-size: .85rem; font-weight: 600; color: var(--blue-500); }
+  .news-empty { text-align: center; padding: 48px 24px; color: var(--text-muted); font-size: .9rem; }
+
+  .article-modal-overlay {
+    position: fixed; inset: 0; background: rgba(10,22,40,.55);
+    display: none; align-items: flex-start; justify-content: center;
+    padding: 60px 20px; z-index: 2000; overflow-y: auto;
+  }
+  .article-modal-overlay.open { display: flex; }
+  .article-modal {
+    background: var(--surface); border-radius: 20px; max-width: 720px; width: 100%;
+    padding: 40px; box-shadow: var(--shadow-lg); position: relative;
+    animation: fadeUp .35s ease both;
+  }
+  .article-modal-close {
+    position: absolute; top: 20px; right: 20px;
+    width: 36px; height: 36px; border-radius: 50%; border: none;
+    background: var(--blue-100); color: var(--blue-600); font-size: 1.1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background var(--transition), color var(--transition);
+  }
+  .article-modal-close:hover { background: var(--blue-400); color: #fff; }
+  .article-modal .blog-tag { margin-bottom: 14px; }
+  .article-modal h2 { font-size: 1.6rem; margin-bottom: 6px; padding-right: 40px; }
+  .article-modal .news-date { margin-bottom: 20px; }
+  .article-modal-body { color: var(--text); line-height: 1.8; font-size: .98rem; }
+  .article-modal-body p { margin-bottom: 16px; }
+
+  .admin-toggle-row { display: flex; justify-content: flex-end; margin-top: 8px; }
+  .admin-link-btn {
+    background: none; border: none; color: var(--text-muted);
+    font-size: .8rem; text-decoration: underline; cursor: pointer;
+  }
+  .admin-link-btn:hover { color: var(--blue-500); }
+  .admin-panel {
+    background: var(--surface); border: 1.5px dashed var(--blue-400); border-radius: var(--radius);
+    padding: 28px; margin-top: 20px; display: none;
+  }
+  .admin-panel.open { display: block; }
+  .admin-panel h4 { font-size: 1.1rem; margin-bottom: 4px; font-family: 'DM Sans', sans-serif; }
+  .admin-panel .admin-note {
+    font-size: .82rem; color: var(--text-muted); margin-bottom: 18px; line-height: 1.6;
+  }
+
   /* ─── ABOUT ─────────────────────────────────────── */
   #about { background: var(--surface); }
   .about-inner {
@@ -621,6 +690,7 @@
     <div class="nav-links">
       <a href="#" onclick="showPage('home')">Home</a>
       <a href="#" onclick="showPage('courses')">Courses</a>
+      <a href="#" onclick="showPage('news')">News</a>
       <a href="#" onclick="showPage('resources')">Resources</a>
       <a href="#" onclick="showPage('about')">About</a>
       <a href="#" onclick="showPage('contact')">Contact</a>
@@ -639,6 +709,7 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="#" onclick="showPage('home');closeMobileMenu()">🏠 Home</a>
   <a href="#" onclick="showPage('courses');closeMobileMenu()">📚 Courses</a>
+  <a href="#" onclick="showPage('news');closeMobileMenu()">📰 News</a>
   <a href="#" onclick="showPage('resources');closeMobileMenu()">📖 Resources</a>
   <a href="#" onclick="showPage('about');closeMobileMenu()">👤 About</a>
   <a href="#" onclick="showPage('contact');closeMobileMenu()">📬 Contact</a>
@@ -972,6 +1043,69 @@
   </section>
 </div>
 
+<!-- ══════════════ PAGE: NEWS ══════════════ -->
+<div id="page-news" class="page">
+  <div style="height:var(--nav-h)"></div>
+  <section>
+    <div class="container">
+      <span class="section-label">Market Coverage</span>
+      <h2 class="section-title">News &amp; Market Analysis</h2>
+      <p class="section-sub">Ongoing coverage of Gold, US100, Futures, and prop firm trading — market moves, trade ideas, and the reasoning behind them.</p>
+
+      <div class="news-filters" id="newsFilters"></div>
+
+      <div class="news-grid" id="newsGrid"></div>
+
+      <div class="admin-toggle-row">
+        <button class="admin-link-btn" onclick="toggleAdminPanel()">+ Publish new article</button>
+      </div>
+
+      <div class="admin-panel" id="adminPanel">
+        <h4>Publish a New Article</h4>
+        <p class="admin-note">This adds an article straight from your browser — handy for jotting something down quickly. Note: it will only be visible on this device/browser, not to other visitors. See the note at the end of this chat for how to make articles visible to everyone.</p>
+        <form onsubmit="submitNewsArticle(event)">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label>Title *</label>
+              <input type="text" name="title" placeholder="e.g. Gold Holds Above Key Support This Week" required />
+            </div>
+            <div class="form-group">
+              <label>Category *</label>
+              <input type="text" name="category" placeholder="e.g. Gold / XAU" required />
+            </div>
+            <div class="form-group">
+              <label>Date</label>
+              <input type="text" value="Today" disabled />
+            </div>
+            <div class="form-group full">
+              <label>Short Summary *</label>
+              <textarea name="excerpt" placeholder="One or two sentences shown on the article card" required></textarea>
+            </div>
+            <div class="form-group full">
+              <label>Full Article *</label>
+              <textarea name="content" style="min-height:160px;" placeholder="Write the full analysis here. Separate paragraphs with a blank line." required></textarea>
+            </div>
+          </div>
+          <div class="form-submit">
+            <button type="submit" class="btn-primary">📰 Publish Article</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ARTICLE MODAL -->
+<div class="article-modal-overlay" id="articleModalOverlay">
+  <div class="article-modal">
+    <button class="article-modal-close" onclick="closeArticle()" aria-label="Close">✕</button>
+    <span class="blog-tag" id="articleModalTag"></span>
+    <h2 id="articleModalTitle"></h2>
+    <div class="news-date" id="articleModalDate"></div>
+    <div class="article-modal-body" id="articleModalBody"></div>
+  </div>
+</div>
+
 <!-- ══════════════ PAGE: ABOUT ══════════════ -->
 <div id="page-about" class="page">
   <div style="height:var(--nav-h)"></div>
@@ -1080,6 +1214,7 @@
         <ul>
           <li><a href="#" onclick="showPage('home')">Home</a></li>
           <li><a href="#" onclick="showPage('courses')">Courses</a></li>
+          <li><a href="#" onclick="showPage('news')">News</a></li>
           <li><a href="#" onclick="showPage('resources')">Resources</a></li>
           <li><a href="#" onclick="showPage('about')">About</a></li>
           <li><a href="#" onclick="showPage('contact')">Contact</a></li>
@@ -1188,6 +1323,179 @@
 
   // Init
   setupReveal();
+</script>
+<script>
+  // ══════════════ NEWS / MARKET ANALYSIS ══════════════
+  // Articles live here as data, not hardcoded HTML — add, edit, or remove
+  // objects from this array to permanently publish content for every visitor.
+  const defaultNewsArticles = [
+    {
+      id: 'gold-fed-outlook',
+      category: 'Gold / XAU',
+      title: 'Gold Holds Above Key Support as Traders Await Fed Signals',
+      date: '2026-09-10',
+      excerpt: 'XAU/USD is consolidating just above a major support zone while markets price in the next move from the Fed. Here is what levels matter this week.',
+      content: `<p>Gold has spent the past few sessions consolidating just above a key support zone, as traders weigh the odds of the next policy move from the Federal Reserve. Rather than a clean trend, price has been chopping sideways — a sign that neither buyers nor sellers currently have full control.</p><p>From a price action perspective, this zone has acted as a demand area on multiple occasions this year, and a clean break below it on strong volume would open the door to a deeper pullback toward the next support cluster.</p><p>My bias remains cautiously constructive above support, with a clearly defined invalidation level for anyone managing risk on this pair. As always, this is market commentary, not a signal to enter a trade — confirm your own setup and risk before acting.</p>`
+    },
+    {
+      id: 'us100-tech-earnings',
+      category: 'US100',
+      title: 'US100 Volatility Picks Up Ahead of Earnings Season',
+      date: '2026-09-05',
+      excerpt: 'The Nasdaq-100 is showing wider daily ranges as earnings season approaches. A look at the structure and what it means for risk management.',
+      content: `<p>The US100 has been printing noticeably wider daily ranges over the past couple of weeks — a common pattern heading into a heavy earnings stretch, as positioning shifts ahead of company reports.</p><p>Rather than trying to predict direction through this stretch, this is a good time to revisit position sizing and confirm that risk-per-trade rules are being followed strictly. Wider ranges cut both ways: they can produce bigger wins, but they can just as easily produce bigger losses for anyone trading the same size as during quieter conditions.</p>`
+    },
+    {
+      id: 'prop-firm-drawdown',
+      category: 'Prop Firms',
+      title: 'The Drawdown Mistake That Ends Most Prop Firm Challenges',
+      date: '2026-08-28',
+      excerpt: 'It is rarely one bad trade that ends a challenge — it is the sequence of decisions after it. A breakdown of the pattern and how to avoid it.',
+      content: `<p>After reviewing dozens of failed prop firm challenges from students, one pattern shows up again and again: a losing trade followed by an oversized trade meant to "win it back" — which then breaches the daily drawdown limit and ends the challenge outright.</p><p>The fix is procedural, not emotional: a hard rule that caps risk after any loss beyond a set threshold, checked before the next order goes in rather than justified after the fact. Discipline here matters more than the strategy itself.</p>`
+    },
+    {
+      id: 'futures-session-timing',
+      category: 'Futures',
+      title: 'Why Session Timing Matters More Than the Setup Itself',
+      date: '2026-08-19',
+      excerpt: 'The same futures setup performs very differently depending on the session it triggers in. Here is how I filter trades by time of day.',
+      content: `<p>Two traders can spot the exact same setup on the same chart and get completely different outcomes, purely because of when it triggered. Liquidity, volatility, and typical range all shift meaningfully between sessions.</p><p>Building a simple session filter into a trading checklist — only taking a setup during the hours it has historically performed best — is one of the highest-leverage changes a discretionary trader can make, and it costs nothing to implement.</p>`
+    }
+  ];
+
+  let newsArticles = [...defaultNewsArticles];
+  let activeNewsFilter = 'all';
+
+  function loadStoredNews() {
+    try {
+      const stored = JSON.parse(localStorage.getItem('nc_news_articles') || '[]');
+      if (Array.isArray(stored) && stored.length) {
+        newsArticles = [...stored, ...defaultNewsArticles];
+      }
+    } catch (e) {
+      // corrupt or missing storage — fall back to defaults silently
+    }
+  }
+
+  function newsCategories() {
+    return ['all', ...new Set(newsArticles.map(a => a.category))];
+  }
+
+  function renderNewsFilters() {
+    const wrap = document.getElementById('newsFilters');
+    if (!wrap) return;
+    wrap.innerHTML = newsCategories().map(cat => `
+      <button class="filter-chip ${cat === activeNewsFilter ? 'active' : ''}" onclick="filterNews('${cat.replace(/'/g, "\\'")}')">
+        ${cat === 'all' ? 'All Articles' : cat}
+      </button>
+    `).join('');
+  }
+
+  function filterNews(category) {
+    activeNewsFilter = category;
+    renderNewsFilters();
+    renderNewsGrid();
+  }
+
+  function formatNewsDate(dateStr) {
+    const d = new Date(dateStr);
+    if (isNaN(d)) return dateStr;
+    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  function renderNewsGrid() {
+    const grid = document.getElementById('newsGrid');
+    if (!grid) return;
+    const list = (activeNewsFilter === 'all'
+      ? newsArticles
+      : newsArticles.filter(a => a.category === activeNewsFilter)
+    ).slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    if (!list.length) {
+      grid.innerHTML = `<div class="news-empty">No articles in this category yet.</div>`;
+      return;
+    }
+
+    grid.innerHTML = list.map(a => `
+      <div class="news-card" onclick="openArticle('${a.id}')">
+        <span class="blog-tag">${a.category}</span>
+        <div class="news-date">${formatNewsDate(a.date)}</div>
+        <h4>${a.title}</h4>
+        <p>${a.excerpt}</p>
+        <span class="news-readmore">Read full analysis →</span>
+      </div>
+    `).join('');
+  }
+
+  function openArticle(id) {
+    const article = newsArticles.find(a => a.id === id);
+    if (!article) return;
+    document.getElementById('articleModalTag').textContent = article.category;
+    document.getElementById('articleModalTitle').textContent = article.title;
+    document.getElementById('articleModalDate').textContent = formatNewsDate(article.date);
+    document.getElementById('articleModalBody').innerHTML = article.content;
+    document.getElementById('articleModalOverlay').classList.add('open');
+  }
+
+  function closeArticle() {
+    document.getElementById('articleModalOverlay').classList.remove('open');
+  }
+
+  document.addEventListener('click', (e) => {
+    if (e.target.id === 'articleModalOverlay') closeArticle();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeArticle();
+  });
+
+  function toggleAdminPanel() {
+    document.getElementById('adminPanel').classList.toggle('open');
+  }
+
+  function submitNewsArticle(e) {
+    e.preventDefault();
+    const form = e.target;
+    const title = form.title.value.trim();
+    const category = form.category.value.trim();
+    const excerpt = form.excerpt.value.trim();
+    const content = form.content.value.trim();
+    if (!title || !category || !excerpt || !content) return;
+
+    const newArticle = {
+      id: 'a' + Date.now(),
+      category,
+      title,
+      date: new Date().toISOString().slice(0, 10),
+      excerpt,
+      content: content.split(/\n\s*\n/).map(p => `<p>${p.trim()}</p>`).join('')
+    };
+
+    newsArticles.unshift(newArticle);
+
+    const stored = JSON.parse(localStorage.getItem('nc_news_articles') || '[]');
+    stored.unshift(newArticle);
+    localStorage.setItem('nc_news_articles', JSON.stringify(stored));
+
+    form.reset();
+    activeNewsFilter = 'all';
+    renderNewsFilters();
+    renderNewsGrid();
+    toggleAdminPanel();
+
+    const toast = document.getElementById('toast');
+    const originalText = toast.textContent;
+    toast.textContent = '✅ Article published!';
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+      toast.textContent = originalText;
+    }, 3500);
+  }
+
+  // Init news module
+  loadStoredNews();
+  renderNewsFilters();
+  renderNewsGrid();
 </script>
 <script>
   // ── CANDLESTICK CURSOR TRAIL ──
