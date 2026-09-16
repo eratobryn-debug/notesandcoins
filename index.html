@@ -28,6 +28,7 @@
     --text-muted: #4b5e82;
     --border:   #e2eaf8;
     --nav-h:    72px;
+    --ticker-h: 40px;
     --radius:   14px;
     --shadow:   0 4px 32px rgba(10,22,40,.10);
     --shadow-lg:0 12px 60px rgba(10,22,40,.16);
@@ -59,9 +60,41 @@
   img { max-width: 100%; }
   section { padding: 90px 0; }
 
+  /* ─── HEADLINE TICKER ───────────────────────────── */
+  .news-ticker {
+    position: fixed; top: 0; left: 0; right: 0; height: var(--ticker-h);
+    z-index: 950; background: var(--blue-900); color: #fff;
+    display: flex; align-items: center; overflow: hidden;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .ticker-label {
+    background: var(--gold); color: var(--blue-900); font-weight: 700; font-size: .72rem;
+    letter-spacing: .3px; padding: 0 14px; height: 100%;
+    display: flex; align-items: center; flex-shrink: 0; white-space: nowrap;
+  }
+  .ticker-track-wrap { flex: 1; overflow: hidden; height: 100%; }
+  .ticker-track {
+    display: flex; align-items: center; gap: 40px; white-space: nowrap;
+    width: max-content; height: 100%;
+    animation: tickerScroll 34s linear infinite;
+  }
+  .news-ticker:hover .ticker-track { animation-play-state: paused; }
+  @keyframes tickerScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .ticker-item { cursor: pointer; font-size: .82rem; font-weight: 500; color: #fff; opacity: .92; }
+  .ticker-item:hover { opacity: 1; text-decoration: underline; }
+  .ticker-tag { color: var(--gold-lt); font-weight: 700; margin-right: 6px; }
+  .ticker-sep { opacity: .35; margin: 0 -20px 0 0; }
+  .ticker-close {
+    background: none; border: none; color: rgba(255,255,255,.6); cursor: pointer;
+    font-size: .85rem; padding: 0 14px; height: 100%; flex-shrink: 0;
+    transition: color var(--transition);
+  }
+  .ticker-close:hover { color: #fff; }
+
   /* ─── NAV ───────────────────────────────────────── */
   nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+    position: fixed; top: var(--ticker-h); left: 0; right: 0; z-index: 900;
+    transition: top var(--transition);
     height: var(--nav-h);
     display: flex; align-items: center;
     background: var(--surface);
@@ -115,7 +148,7 @@
   .hero {
     min-height: 100vh;
     display: flex; align-items: center;
-    padding-top: var(--nav-h);
+    padding-top: calc(var(--nav-h) + var(--ticker-h));
     background:
       radial-gradient(ellipse 80% 60% at 70% 40%, rgba(37,99,235,.12) 0%, transparent 60%),
       radial-gradient(ellipse 50% 40% at 10% 80%, rgba(240,180,41,.07) 0%, transparent 60%),
@@ -429,6 +462,36 @@
   .news-card p { font-size: .88rem; color: var(--text-muted); line-height: 1.6; flex: 1; }
   .news-readmore { margin-top: 14px; font-size: .85rem; font-weight: 600; color: var(--blue-500); }
   .news-empty { text-align: center; padding: 48px 24px; color: var(--text-muted); font-size: .9rem; }
+  .news-card-thumb {
+    width: 100%; height: 160px; object-fit: cover; border-radius: 10px; margin-bottom: 14px;
+  }
+
+  /* article media: images, video, audio inside the modal */
+  .article-media-gallery {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px;
+    margin-bottom: 20px;
+  }
+  .article-media-image { width: 100%; max-height: 320px; object-fit: cover; border-radius: 12px; display: block; }
+  .article-video-wrap {
+    position: relative; width: 100%; aspect-ratio: 16 / 9; margin-bottom: 20px;
+    border-radius: 12px; overflow: hidden; background: #000;
+  }
+  .article-video-wrap iframe, .article-video-wrap video {
+    position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+  }
+  .article-audio { width: 100%; margin-bottom: 20px; }
+
+  /* media attachment fields inside the publish form */
+  .media-field-group {
+    border: 1.5px dashed var(--border); border-radius: 12px; padding: 16px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .media-field-group label { display: flex; align-items: center; gap: 6px; }
+  .media-hint { font-size: .76rem; color: var(--text-muted); }
+  input[type="file"] {
+    background: var(--bg); border: 1.5px dashed var(--border);
+    border-radius: 10px; padding: 10px; font-size: .82rem; color: var(--text-muted);
+  }
 
   .article-modal-overlay {
     position: fixed; inset: 0; background: rgba(10,22,40,.55);
@@ -650,7 +713,7 @@
 
   /* ─── MOBILE NAV ────────────────────────────────── */
   .mobile-menu {
-    display: none; position: fixed; top: var(--nav-h); left: 0; right: 0;
+    display: none; position: fixed; top: calc(var(--nav-h) + var(--ticker-h)); left: 0; right: 0;
     background: var(--surface); border-bottom: 1px solid var(--border);
     padding: 20px 24px; z-index: 850; flex-direction: column; gap: 16px;
     box-shadow: var(--shadow-lg);
@@ -682,6 +745,15 @@
 </style>
 </head>
 <body>
+
+<!-- HEADLINE TICKER -->
+<div class="news-ticker" id="newsTicker">
+  <div class="ticker-label">🔴 Live Markets</div>
+  <div class="ticker-track-wrap">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+  <button class="ticker-close" onclick="closeTicker()" aria-label="Hide ticker">✕</button>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -866,7 +938,7 @@
 
 <!-- ══════════════ PAGE: COURSES ══════════════ -->
 <div id="page-courses" class="page">
-  <div style="height:var(--nav-h)"></div>
+  <div style="height:calc(var(--nav-h) + var(--ticker-h))"></div>
   <section>
     <div class="container">
       <span class="section-label">Programs</span>
@@ -970,7 +1042,7 @@
 
 <!-- ══════════════ PAGE: RESOURCES ══════════════ -->
 <div id="page-resources" class="page">
-  <div style="height:var(--nav-h)"></div>
+  <div style="height:calc(var(--nav-h) + var(--ticker-h))"></div>
   <section>
     <div class="container">
       <span class="section-label">Free Learning</span>
@@ -1045,7 +1117,7 @@
 
 <!-- ══════════════ PAGE: NEWS ══════════════ -->
 <div id="page-news" class="page">
-  <div style="height:var(--nav-h)"></div>
+  <div style="height:calc(var(--nav-h) + var(--ticker-h))"></div>
   <section>
     <div class="container">
       <span class="section-label">Market Coverage</span>
@@ -1062,7 +1134,7 @@
 
       <div class="admin-panel" id="adminPanel">
         <h4>Publish a New Article</h4>
-        <p class="admin-note">This adds an article straight from your browser — handy for jotting something down quickly. Note: it will only be visible on this device/browser, not to other visitors. See the note at the end of this chat for how to make articles visible to everyone.</p>
+        <p class="admin-note">This adds an article straight from your browser — handy for jotting something down quickly. Note: it will only be visible on this device/browser, not to other visitors, and browsers cap how much can be stored locally, so keep uploaded images modest in size and prefer video/audio links over large uploads. See the note at the end of this chat for how to make articles visible to everyone.</p>
         <form onsubmit="submitNewsArticle(event)">
           <div class="form-grid">
             <div class="form-group full">
@@ -1084,6 +1156,19 @@
             <div class="form-group full">
               <label>Full Article *</label>
               <textarea name="content" style="min-height:160px;" placeholder="Write the full analysis here. Separate paragraphs with a blank line." required></textarea>
+            </div>
+            <div class="form-group full media-field-group">
+              <label>🖼️ Images / Charts (optional)</label>
+              <input type="file" name="mediaImages" accept="image/*" multiple />
+              <span class="media-hint">Attach screenshots, charts, or photos. Up to 6 images, shown in a gallery on the article.</span>
+            </div>
+            <div class="form-group">
+              <label>🎬 Video URL (optional)</label>
+              <input type="url" name="videoUrl" placeholder="YouTube, Vimeo, or direct video link" />
+            </div>
+            <div class="form-group">
+              <label>🔊 Audio URL (optional)</label>
+              <input type="url" name="audioUrl" placeholder="Link to an mp3/audio file" />
             </div>
           </div>
           <div class="form-submit">
@@ -1108,7 +1193,7 @@
 
 <!-- ══════════════ PAGE: ABOUT ══════════════ -->
 <div id="page-about" class="page">
-  <div style="height:var(--nav-h)"></div>
+  <div style="height:calc(var(--nav-h) + var(--ticker-h))"></div>
   <section id="about">
     <div class="container">
       <div class="about-inner">
@@ -1149,7 +1234,7 @@
 
 <!-- ══════════════ PAGE: CONTACT ══════════════ -->
 <div id="page-contact" class="page">
-  <div style="height:var(--nav-h)"></div>
+  <div style="height:calc(var(--nav-h) + var(--ticker-h))"></div>
   <section>
     <div class="container">
       <span class="section-label">Get in Touch</span>
@@ -1418,6 +1503,7 @@
 
     grid.innerHTML = list.map(a => `
       <div class="news-card" onclick="openArticle('${a.id}')">
+        ${a.media && a.media.images && a.media.images.length ? `<img src="${a.media.images[0]}" class="news-card-thumb" alt="">` : ''}
         <span class="blog-tag">${a.category}</span>
         <div class="news-date">${formatNewsDate(a.date)}</div>
         <h4>${a.title}</h4>
@@ -1427,13 +1513,37 @@
     `).join('');
   }
 
+  function getVideoEmbedHtml(url) {
+    if (!url) return '';
+    const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+    if (yt) {
+      return `<div class="article-video-wrap"><iframe src="https://www.youtube.com/embed/${yt[1]}" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+    }
+    const vimeo = url.match(/vimeo\.com\/(\d+)/);
+    if (vimeo) {
+      return `<div class="article-video-wrap"><iframe src="https://player.vimeo.com/video/${vimeo[1]}" title="Video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>`;
+    }
+    return `<div class="article-video-wrap"><video controls src="${url}"></video></div>`;
+  }
+
+  function getMediaHtml(media) {
+    if (!media) return '';
+    let html = '';
+    if (media.images && media.images.length) {
+      html += `<div class="article-media-gallery">${media.images.map(src => `<img src="${src}" alt="Article image" class="article-media-image">`).join('')}</div>`;
+    }
+    if (media.video) html += getVideoEmbedHtml(media.video);
+    if (media.audio) html += `<audio controls class="article-audio" src="${media.audio}"></audio>`;
+    return html;
+  }
+
   function openArticle(id) {
     const article = newsArticles.find(a => a.id === id);
     if (!article) return;
     document.getElementById('articleModalTag').textContent = article.category;
     document.getElementById('articleModalTitle').textContent = article.title;
     document.getElementById('articleModalDate').textContent = formatNewsDate(article.date);
-    document.getElementById('articleModalBody').innerHTML = article.content;
+    document.getElementById('articleModalBody').innerHTML = getMediaHtml(article.media) + article.content;
     document.getElementById('articleModalOverlay').classList.add('open');
   }
 
@@ -1452,14 +1562,40 @@
     document.getElementById('adminPanel').classList.toggle('open');
   }
 
-  function submitNewsArticle(e) {
+  function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(new Error('Could not read file: ' + file.name));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function submitNewsArticle(e) {
     e.preventDefault();
     const form = e.target;
     const title = form.title.value.trim();
     const category = form.category.value.trim();
     const excerpt = form.excerpt.value.trim();
     const content = form.content.value.trim();
+    const videoUrl = form.videoUrl.value.trim();
+    const audioUrl = form.audioUrl.value.trim();
+    const imageFiles = form.mediaImages.files;
     if (!title || !category || !excerpt || !content) return;
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnLabel = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Publishing…';
+
+    let images = [];
+    try {
+      if (imageFiles && imageFiles.length) {
+        images = await Promise.all(Array.from(imageFiles).slice(0, 6).map(readFileAsDataURL));
+      }
+    } catch (err) {
+      console.error('Could not read attached image(s):', err);
+    }
 
     const newArticle = {
       id: 'a' + Date.now(),
@@ -1467,20 +1603,30 @@
       title,
       date: new Date().toISOString().slice(0, 10),
       excerpt,
-      content: content.split(/\n\s*\n/).map(p => `<p>${p.trim()}</p>`).join('')
+      content: content.split(/\n\s*\n/).map(p => `<p>${p.trim()}</p>`).join(''),
+      media: { images, video: videoUrl, audio: audioUrl }
     };
 
     newsArticles.unshift(newArticle);
 
-    const stored = JSON.parse(localStorage.getItem('nc_news_articles') || '[]');
-    stored.unshift(newArticle);
-    localStorage.setItem('nc_news_articles', JSON.stringify(stored));
+    try {
+      const stored = JSON.parse(localStorage.getItem('nc_news_articles') || '[]');
+      stored.unshift(newArticle);
+      localStorage.setItem('nc_news_articles', JSON.stringify(stored));
+    } catch (err) {
+      console.error('Storage error (attached media may be too large for this browser):', err);
+      alert('Your article is showing for this session, but the attached media may be too large to save permanently in this browser. Try smaller images, or link to hosted video/audio instead of uploading large files.');
+    }
 
     form.reset();
     activeNewsFilter = 'all';
     renderNewsFilters();
     renderNewsGrid();
+    renderTicker();
     toggleAdminPanel();
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalBtnLabel;
 
     const toast = document.getElementById('toast');
     const originalText = toast.textContent;
@@ -1492,10 +1638,54 @@
     }, 3500);
   }
 
+  // ── HEADLINE TICKER ──
+  function renderTicker() {
+    const track = document.getElementById('tickerTrack');
+    const tickerEl = document.getElementById('newsTicker');
+    if (!track || !tickerEl) return;
+
+    if (!newsArticles.length) {
+      tickerEl.style.display = 'none';
+      return;
+    }
+
+    const items = newsArticles
+      .slice()
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 8);
+
+    const itemsHtml = items.map(a => `
+      <span class="ticker-item" onclick="openArticle('${a.id}')"><span class="ticker-tag">${a.category}</span>${a.title}</span>
+      <span class="ticker-sep">•</span>
+    `).join('');
+
+    // Duplicate the sequence so the scroll loops seamlessly at -50%
+    track.innerHTML = itemsHtml + itemsHtml;
+  }
+
+  function closeTicker() {
+    document.documentElement.style.setProperty('--ticker-h', '0px');
+    const tickerEl = document.getElementById('newsTicker');
+    if (tickerEl) tickerEl.style.display = 'none';
+    try { sessionStorage.setItem('nc_ticker_closed', '1'); } catch (e) { /* ignore */ }
+  }
+
+  function restoreTickerState() {
+    try {
+      if (sessionStorage.getItem('nc_ticker_closed') === '1') {
+        document.documentElement.style.setProperty('--ticker-h', '0px');
+        const tickerEl = document.getElementById('newsTicker');
+        if (tickerEl) tickerEl.style.display = 'none';
+      }
+    } catch (e) { /* ignore */ }
+  }
+
   // Init news module
   loadStoredNews();
   renderNewsFilters();
   renderNewsGrid();
+  renderTicker();
+  restoreTickerState();
 </script>
 <script>
   // ── CANDLESTICK CURSOR TRAIL ──
